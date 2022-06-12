@@ -1,13 +1,13 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '../../utils/test-utils'
 
 import Button from '.'
 
 describe('<Button />', () => {
   it('should render the heading', () => {
-    const { container } = render(<Button />)
+    render(<Button>Criar uma conta</Button>)
 
-    expect(screen.getByRole('heading', { name: /Button/i })).toBeInTheDocument()
-
-    expect(container.firstChild).toMatchSnapshot()
+    expect(
+      screen.getByRole('button', { name: /Criar uma conta/i })
+    ).toBeInTheDocument()
   })
 })
