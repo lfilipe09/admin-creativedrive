@@ -32,7 +32,7 @@ export default {
   },
   gradients: {
     grayGradient:
-      'linear-gradient(50deg, rgba(70,72,79,1) 0%, rgba(52,53,60,1) 100%)',
+      'linear-gradient(50deg, rgb(31 31 33) 0%, rgb(70 71 79) 100%)',
     blackMainDesktopGradient:
       'linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%)',
     blackSecondaryDesktopGradient:

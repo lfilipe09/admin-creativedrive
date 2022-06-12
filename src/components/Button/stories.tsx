@@ -8,14 +8,7 @@ export default {
 } as Meta
 
 export const Default: Story<ButtonProps> = (args) => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      height: '100vh',
-      alignItems: 'center'
-    }}
-  >
+  <div style={{ maxWidth: 300, padding: 15 }}>
     <Button {...args} />
   </div>
 )
@@ -26,14 +19,7 @@ Default.args = {
 }
 
 export const OnlyIcon: Story<ButtonProps> = (args) => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      height: '100vh',
-      alignItems: 'center'
-    }}
-  >
+  <div style={{ maxWidth: 300, padding: 15 }}>
     <Button {...args} />
   </div>
 )
@@ -43,14 +29,7 @@ OnlyIcon.args = {
 }
 
 export const OnlyIconGray: Story<ButtonProps> = (args) => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      height: '100vh',
-      alignItems: 'center'
-    }}
-  >
+  <div style={{ maxWidth: 300, padding: 15 }}>
     <Button {...args} />
   </div>
 )
@@ -61,14 +40,7 @@ OnlyIconGray.args = {
 }
 
 export const Minimal: Story<ButtonProps> = (args) => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      height: '100vh',
-      alignItems: 'center'
-    }}
-  >
+  <div style={{ maxWidth: 300, padding: 15 }}>
     <Button {...args} />
   </div>
 )
@@ -79,14 +51,7 @@ Minimal.args = {
 }
 
 export const Border: Story<ButtonProps> = (args) => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      height: '100vh',
-      alignItems: 'center'
-    }}
-  >
+  <div style={{ maxWidth: 300, padding: 15 }}>
     <Button {...args} />
   </div>
 )
