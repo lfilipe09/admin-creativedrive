@@ -39,29 +39,35 @@ const TextField = ({
 
   return (
     <S.Wrapper disabled={disabled} error={!!error}>
-      {!!icon && outsideIcon && <S.Icon>{icon}</S.Icon>}
-      <S.InputLabelWrapper minimal={minimal} inputHeight={inputHeight}>
-        <S.InputWrapper>
-          {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
-          <S.Input
-            type={password && !visiblePassword ? 'password' : 'text'}
-            onChange={onChange}
-            value={value}
-            disabled={disabled}
-            name={name}
-            inputHeight={inputHeight}
-            {...(label ? { id: name } : {})}
-            {...props}
-          />
-        </S.InputWrapper>
-        {password && value.length > 0 ? (
-          <S.IconButton onClick={() => setVisiblePassword(!visiblePassword)}>
-            {visiblePassword ? <EyeOff size={'1rem'} /> : <Eye size={'1rem'} />}
-          </S.IconButton>
-        ) : (
-          !!icon && !outsideIcon && <S.Icon>{icon}</S.Icon>
-        )}
-      </S.InputLabelWrapper>
+      <div style={{ display: 'flex' }}>
+        {!!icon && outsideIcon && <S.Icon>{icon}</S.Icon>}
+        <S.InputLabelWrapper minimal={minimal} inputHeight={inputHeight}>
+          <S.InputWrapper>
+            {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
+            <S.Input
+              type={password && !visiblePassword ? 'password' : 'text'}
+              onChange={onChange}
+              value={value}
+              disabled={disabled}
+              name={name}
+              inputHeight={inputHeight}
+              {...(label ? { id: name } : {})}
+              {...props}
+            />
+          </S.InputWrapper>
+          {password && value.length > 0 ? (
+            <S.IconButton onClick={() => setVisiblePassword(!visiblePassword)}>
+              {visiblePassword ? (
+                <EyeOff size={'1rem'} />
+              ) : (
+                <Eye size={'1rem'} />
+              )}
+            </S.IconButton>
+          ) : (
+            !!icon && !outsideIcon && <S.Icon>{icon}</S.Icon>
+          )}
+        </S.InputLabelWrapper>
+      </div>
       {!!error && <S.Error>{error}</S.Error>}
     </S.Wrapper>
   )

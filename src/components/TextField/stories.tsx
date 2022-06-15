@@ -73,3 +73,31 @@ OutsideIcon.args = {
   minimal: true,
   outsideIcon: true
 }
+
+export const Error: Story<TextFieldProps> = (args) => (
+  <div style={{ maxWidth: 300, padding: 15 }}>
+    <TextField {...args} />
+  </div>
+)
+
+Error.args = {
+  label: 'E-mail',
+  name: 'email',
+  icon: <User size={'1.5rem'} />,
+  placeholder: 'john.cage@gmail.com',
+  error: 'O sobrenome digitado esta incorreto'
+}
+
+export const Disabled: Story<TextFieldProps> = (args) => (
+  <div style={{ maxWidth: 300, padding: 15 }}>
+    <TextField {...args} />
+  </div>
+)
+
+Disabled.args = {
+  label: 'E-mail',
+  name: 'email',
+  icon: <User size={'1.5rem'} />,
+  placeholder: 'john.cage@gmail.com',
+  disabled: true
+}

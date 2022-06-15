@@ -1,5 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { TextFieldProps } from '.'
+import { darken } from 'polished'
 
 type WrapperProps = Pick<TextFieldProps, 'disabled'> & { error?: boolean }
 
@@ -53,9 +54,25 @@ export const Input = styled.input<InputProps>`
 
     //remover aquele autofill do google que deixa azulzinho
     //o filter none é pra remover do firefox que tem filtro só lá
-    &:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0 ${theme.spacings.small}
-        ${theme.colors.lightGray} inset;
+    @-webkit-keyframes autofill {
+      0%,
+      100% {
+        color: #666;
+        background: transparent;
+      }
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+      -webkit-animation-delay: 1s; /* Safari support - any positive time runs instantly */
+      -webkit-animation-name: autofill;
+      -webkit-animation-fill-mode: both;
+      -webkit-text-fill-color: ${theme.colors.white} !important;
+      -webkit-background-clip: text;
+
       filter: none;
     }
   `}
@@ -96,22 +113,24 @@ export const IconButton = styled.button`
 export const Error = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.primary};
-    font-size: ${theme.font.sizes.xsmall};
+    font-size: ${theme.font.sizes.small};
   `}
 `
 
 const wrapperModifiers = {
   error: (theme: DefaultTheme) => css`
-    ${InputWrapper} {
-      border-color: ${theme.colors.primary};
+    ${InputLabelWrapper} {
+      outline: 1.5px solid ${theme.colors.primary};
     }
   `,
   disabled: (theme: DefaultTheme) => css`
     ${Label},
     ${Input},
+    ${InputLabelWrapper},
     ${Icon} {
       cursor: not-allowed;
-      color: ${theme.colors.gray};
+      color: ${darken(0.15, theme.colors.gray)};
+      background: ${darken(0.25, theme.colors.darkGray)};
       &::placeholder {
         color: currentColor;
       }
@@ -121,6 +140,7 @@ const wrapperModifiers = {
 
 export const Wrapper = styled.div<WrapperProps>`
   display: flex;
+  flex-direction: column;
   grid-gap: 0.5rem;
   ${({ theme, error, disabled }) => css`
     ${error && wrapperModifiers.error(theme)}
