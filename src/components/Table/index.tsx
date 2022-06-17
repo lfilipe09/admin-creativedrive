@@ -142,6 +142,7 @@ const Table = ({
                     <Button
                       icon={<Edit3 strokeWidth={1} width={'1rem'} />}
                       onClick={() => {
+                        setEditingData({})
                         setEditModeOnIndex(index)
                       }}
                       iconGrey={true}
