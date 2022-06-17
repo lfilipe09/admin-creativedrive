@@ -1,8 +1,12 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 
+export const DropdownParentWrapper = styled.div`
+  position: relative;
+`
+
 const DropdownLabelWrapperModifier = {
   minimal: (theme: DefaultTheme) => css`
-    background: transparent;
+    background: ${theme.colors.black};
     border: 1px solid ${theme.colors.darkGray};
   `
 }
@@ -17,7 +21,6 @@ export const DropdownLabelWrapper = styled.button<DropdownLabelWrapperProps>`
   ${({ theme, minimal, dropdownHeight, isOpen }) => css`
     display: flex;
     z-index: 20;
-    position: relative;
     align-items: center;
     width: 100%;
     grid-gap: 3rem;
@@ -124,6 +127,8 @@ type DropdownPanelProps = {
 
 export const DropdownPanel = styled.div<DropdownPanelProps>`
   ${({ theme, minimal, dropdownHeight, isOpen }) => css`
+    position: absolute;
+    z-index: ${theme.layers.overlay};
     display: flex;
     align-items: center;
     width: 100%;

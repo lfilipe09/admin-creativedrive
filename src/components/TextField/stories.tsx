@@ -17,7 +17,22 @@ Default.args = {
   label: 'E-mail',
   name: 'email',
   icon: <User size={'1.5rem'} />,
-  placeholder: 'john.cage@gmail.com'
+  placeholder: 'john.cage@gmail.com',
+  onInputChange: (value) => console.log(value)
+}
+
+export const MaskInput: Story<TextFieldProps> = (args) => (
+  <div style={{ maxWidth: 300, padding: 15 }}>
+    <TextField {...args} />
+  </div>
+)
+
+MaskInput.args = {
+  label: 'CPF',
+  name: 'cpf',
+  icon: <User size={'1.5rem'} />,
+  placeholder: 'john.cage@gmail.com',
+  mask: '999.999.999-99'
 }
 
 export const Minimal: Story<TextFieldProps> = (args) => (

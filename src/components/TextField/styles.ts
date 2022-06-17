@@ -77,6 +77,44 @@ export const Input = styled.input<InputProps>`
     }
   `}
 `
+
+export const InputMask = styled.input`
+  ${({ theme }) => css`
+    color: ${theme.colors.white};
+    font-family: ${theme.font.family};
+    font-size: ${theme.font.sizes.medium};
+    padding: ${theme.spacings.xxsmall} 0;
+    background: transparent;
+    border: 0;
+    outline: none;
+    width: 100%;
+
+    //remover aquele autofill do google que deixa azulzinho
+    //o filter none é pra remover do firefox que tem filtro só lá
+    @-webkit-keyframes autofill {
+      0%,
+      100% {
+        color: #666;
+        background: transparent;
+      }
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+      -webkit-animation-delay: 1s; /* Safari support - any positive time runs instantly */
+      -webkit-animation-name: autofill;
+      -webkit-animation-fill-mode: both;
+      -webkit-text-fill-color: ${theme.colors.white} !important;
+      -webkit-background-clip: text;
+
+      filter: none;
+    }
+  `}
+`
+
 export const Label = styled.label`
   ${({ theme }) => css`
     font-family: ${theme.font.family};

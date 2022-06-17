@@ -29,7 +29,7 @@ const Dropdown = ({
   )
 
   return (
-    <>
+    <S.DropdownParentWrapper>
       <S.DropdownLabelWrapper
         isOpen={isOpen}
         minimal={minimal}
@@ -77,7 +77,7 @@ const Dropdown = ({
           )
         })}
       </S.DropdownPanel>
-    </>
+    </S.DropdownParentWrapper>
   )
 }
 export default Dropdown

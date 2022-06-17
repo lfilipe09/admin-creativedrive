@@ -16,12 +16,12 @@ export const Default: Story<MenuProps> = (args) => (
 Default.args = {
   menuItems: [
     {
-      icon: <Home size={'1.5rem'} strokeWidth={0.5} />,
+      icon: <Home size={'1.2rem'} strokeWidth={0.5} />,
       label: 'Home',
       url: '/dashboard'
     },
     {
-      icon: <User size={'1.5rem'} strokeWidth={0.5} />,
+      icon: <User size={'1.2rem'} strokeWidth={0.5} />,
       label: 'Usuários',
       url: '/users'
     }

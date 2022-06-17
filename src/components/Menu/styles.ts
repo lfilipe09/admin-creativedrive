@@ -89,7 +89,7 @@ export const FixedMenuLink = styled.a`
 
 export const PlusIcon = styled.a`
   ${({ theme }) => css`
-    color: ${theme.colors.white};
+    color: ${theme.colors.black};
     padding: 1rem;
     background-color: ${theme.colors.primary};
     border-radius: 100%;

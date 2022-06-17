@@ -31,7 +31,10 @@ Minimal.args = {
   label: 'Perfil',
   icon: <UserCheck size={'1.5rem'} />,
   options: ['Administrador', 'Usuario'],
-  minimal: true
+  minimal: true,
+  onDropdownChange: (value) => {
+    console.log(value)
+  }
 }
 
 export const Small: Story<DropdownProps> = (args) => (

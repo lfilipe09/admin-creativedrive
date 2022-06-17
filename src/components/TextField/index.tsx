@@ -1,9 +1,12 @@
 import { Eye, EyeOff } from '@styled-icons/feather'
 import { useState, InputHTMLAttributes } from 'react'
 import * as S from './styles'
+import InputMask from 'react-input-mask'
 
 export type TextFieldProps = {
   onInputChange?: (value: string) => void
+  handleOnBlur?: (value: string) => void
+  handleOnFocus?: () => void
   minimal?: boolean
   password?: boolean
   label?: string
@@ -12,6 +15,7 @@ export type TextFieldProps = {
   outsideIcon?: boolean
   disabled?: boolean
   error?: string
+  mask?: string | null
   inputHeight?: 'big' | 'small'
 } & InputHTMLAttributes<HTMLInputElement>
 
@@ -25,8 +29,11 @@ const TextField = ({
   initialValue = '',
   error,
   name,
+  mask,
   disabled = false,
   onInputChange,
+  handleOnBlur,
+  handleOnFocus,
   ...props
 }: TextFieldProps) => {
   const [value, setValue] = useState(initialValue)
@@ -44,16 +51,34 @@ const TextField = ({
         <S.InputLabelWrapper minimal={minimal} inputHeight={inputHeight}>
           <S.InputWrapper>
             {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
-            <S.Input
-              type={password && !visiblePassword ? 'password' : 'text'}
-              onChange={onChange}
-              value={value}
-              disabled={disabled}
-              name={name}
-              inputHeight={inputHeight}
-              {...(label ? { id: name } : {})}
-              {...props}
-            />
+            {mask ? (
+              <InputMask
+                mask={mask ?? ''}
+                onChange={onChange}
+                onFocus={handleOnFocus}
+                onBlur={(e) => handleOnBlur?.(e.currentTarget.value)}
+              >
+                <S.InputMask
+                  type={'text'}
+                  name={name}
+                  {...(label ? { id: name } : {})}
+                  {...props}
+                />
+              </InputMask>
+            ) : (
+              <S.Input
+                type={password && !visiblePassword ? 'password' : 'text'}
+                onChange={onChange}
+                onFocus={handleOnFocus}
+                onBlur={(e) => handleOnBlur?.(e.currentTarget.value)}
+                value={value}
+                disabled={disabled}
+                name={name}
+                inputHeight={inputHeight}
+                {...(label ? { id: name } : {})}
+                {...props}
+              />
+            )}
           </S.InputWrapper>
           {password && value.length > 0 ? (
             <S.IconButton onClick={() => setVisiblePassword(!visiblePassword)}>

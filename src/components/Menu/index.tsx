@@ -48,7 +48,7 @@ const Menu = ({ menuItems, logoImageUrl }: MenuProps) => (
         </S.FixedMenuItem>
         <Link href={'/create-user'} passHref>
           <S.PlusIcon>
-            <Plus size={'1.5rem'} />
+            <Plus size={'1.5rem'} strokeWidth={3} />
           </S.PlusIcon>
         </Link>
       </S.FixedMenuWrapper>
