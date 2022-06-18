@@ -16,6 +16,9 @@ export const BigNumber = styled.h2<BigNumberProps>`
     color: ${isActive ? theme.colors.primary : theme.colors.lightGray};
     font-weight: ${theme.font.light};
     font-size: 6rem;
+    ${media.lessThan('medium')`
+      font-size: ${theme.font.sizes.huge};
+    `}
   `}
 `
 
