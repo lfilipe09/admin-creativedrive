@@ -64,7 +64,7 @@ const FormSignUp = ({ onSubmit }: FormSignInProps) => {
           type={'submit'}
           icon={<ChevronRight strokeWidth={4} width={'1rem'} />}
         >
-          Criar uma conta
+          Acessar a plataforma
         </Button>
       </S.ButtonWrapper>
     </S.Wrapper>
