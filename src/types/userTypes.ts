@@ -10,4 +10,7 @@ export interface User {
 
 export type UserForm = Omit<User, 'id'>
 
-export type UserValidation = Omit<User, 'id' | 'profile'>
+export type UserFormSignIn = Omit<
+  UserForm,
+  'name' | 'surname' | 'cpf' | 'profile'
+>

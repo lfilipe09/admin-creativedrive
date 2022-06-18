@@ -37,7 +37,7 @@ const FormSignUp = ({ onSubmit }: FormSignUpProps) => {
     event.preventDefault()
 
     const valuesValidate = values
-    delete valuesValidate['profile']
+    //delete valuesValidate['profile']
     const errors = UserValidate(valuesValidate)
     if (Object.keys(errors).length) {
       setFieldError(errors)
@@ -99,7 +99,7 @@ const FormSignUp = ({ onSubmit }: FormSignUpProps) => {
         />
       </S.InputGroup>
       <TextField
-        label={'Email'}
+        label={'E-mail'}
         name={'email'}
         icon={<AtSign size={'1.5rem'} />}
         placeholder={'email@example.com'}

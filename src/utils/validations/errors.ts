@@ -67,3 +67,8 @@ export const password_schema = Joi.string()
       'Essa não é uma senha válida. Precisa ter no mínimo: 8 dígitos, 1 maiúscula, 1 minúscula, 1 número, 1 caracter especial',
     'any.required': `O campo senha é obrigatório`
   })
+
+export const profile_schema = Joi.string().required().messages({
+  'string.empty': `O perfil não pode ser vazio`,
+  'any.required': `O campo senha é obrigatório`
+})
