@@ -31,7 +31,7 @@ MaskInput.args = {
   label: 'CPF',
   name: 'cpf',
   icon: <User size={'1.5rem'} />,
-  placeholder: 'john.cage@gmail.com',
+  placeholder: '000.000.000-00',
   mask: '999.999.999-99'
 }
 

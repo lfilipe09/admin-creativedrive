@@ -16,6 +16,7 @@ type InputLabelWrapperProps = { minimal?: boolean; inputHeight: string }
 export const InputLabelWrapper = styled.div<InputLabelWrapperProps>`
   ${({ theme, minimal, inputHeight }) => css`
     display: flex;
+    width: 100%;
     justify-content: space-between;
     background: ${theme.gradients.grayGradient};
     border-radius: ${inputHeight == 'big' ? theme.border.radius : '0.3rem'};
@@ -34,6 +35,7 @@ export const InputWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
     input[type='password']:not(:placeholder-shown) {
       font-family: ${theme.font.family};
       font-size: ${theme.font.sizes.medium};
@@ -178,6 +180,7 @@ const wrapperModifiers = {
 
 export const Wrapper = styled.div<WrapperProps>`
   display: flex;
+  width: 100%;
   flex-direction: column;
   grid-gap: 0.5rem;
   ${({ theme, error, disabled }) => css`

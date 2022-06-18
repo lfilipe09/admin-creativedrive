@@ -4,6 +4,7 @@ import { ButtonProps } from '.'
 
 type WrapperProps = {
   hasIcon: boolean
+  disabled: boolean
 } & Pick<ButtonProps, 'minimalButton' | 'borderButton' | 'iconGrey'>
 
 const wrapperModifiers = {
@@ -26,11 +27,28 @@ const wrapperModifiers = {
         )};
       }
     }
+  `,
+  disabled: (theme: DefaultTheme) => css`
+    color: ${darken(0.5, theme.colors.white)};
+    svg {
+      color: ${darken(0.2, theme.colors.primary)};
+    }
+    &:disabled {
+      cursor: not-allowed;
+      filter: saturate(30%);
+    }
   `
 }
 
 export const Wrapper = styled.button<WrapperProps>`
-  ${({ theme, hasIcon, minimalButton, borderButton, iconGrey }) => css`
+  ${({
+    theme,
+    hasIcon,
+    minimalButton,
+    borderButton,
+    iconGrey,
+    disabled
+  }) => css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -53,5 +71,6 @@ export const Wrapper = styled.button<WrapperProps>`
     ${!!hasIcon && wrapperModifiers.withIcon(theme, iconGrey)};
     ${!!minimalButton && wrapperModifiers.minimalButton(theme)};
     ${!!borderButton && wrapperModifiers.borderButton(theme)};
+    ${!!disabled && wrapperModifiers.disabled(theme)}
   `}
 `

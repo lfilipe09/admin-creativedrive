@@ -34,6 +34,7 @@ const Dropdown = ({
         isOpen={isOpen}
         minimal={minimal}
         dropdownHeight={dropdownHeight}
+        type={'button'}
         onClick={() => {
           setIsOpen(!isOpen)
         }}

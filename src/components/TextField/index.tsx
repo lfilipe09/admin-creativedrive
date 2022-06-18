@@ -5,7 +5,7 @@ import InputMask from 'react-input-mask'
 
 export type TextFieldProps = {
   onInputChange?: (value: string) => void
-  handleOnBlur?: (value: string) => void
+  handleOnBlur?: () => void
   handleOnFocus?: () => void
   minimal?: boolean
   password?: boolean
@@ -56,7 +56,7 @@ const TextField = ({
                 mask={mask ?? ''}
                 onChange={onChange}
                 onFocus={handleOnFocus}
-                onBlur={(e) => handleOnBlur?.(e.currentTarget.value)}
+                onBlur={handleOnBlur}
               >
                 <S.InputMask
                   type={'text'}
@@ -70,7 +70,7 @@ const TextField = ({
                 type={password && !visiblePassword ? 'password' : 'text'}
                 onChange={onChange}
                 onFocus={handleOnFocus}
-                onBlur={(e) => handleOnBlur?.(e.currentTarget.value)}
+                onBlur={handleOnBlur}
                 value={value}
                 disabled={disabled}
                 name={name}
@@ -81,7 +81,10 @@ const TextField = ({
             )}
           </S.InputWrapper>
           {password && value.length > 0 ? (
-            <S.IconButton onClick={() => setVisiblePassword(!visiblePassword)}>
+            <S.IconButton
+              type="button"
+              onClick={() => setVisiblePassword(!visiblePassword)}
+            >
               {visiblePassword ? (
                 <EyeOff size={'1rem'} />
               ) : (
