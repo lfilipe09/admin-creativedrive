@@ -1,5 +1,5 @@
 import SignUp from 'templates/SignUp'
 
-export default function Home() {
+export default function SignUpPage() {
   return <SignUp />
 }

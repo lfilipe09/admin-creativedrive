@@ -1,11 +1,11 @@
 import { Eye, EyeOff } from '@styled-icons/feather'
 import { useState, InputHTMLAttributes } from 'react'
 import * as S from './styles'
-import InputMask from 'react-input-mask'
+import InputMaskHydrated from 'components/InputMask'
 
 export type TextFieldProps = {
   onInputChange?: (value: string) => void
-  handleOnBlur?: () => void
+  handleOnBlur?: (value: string) => void
   handleOnFocus?: () => void
   minimal?: boolean
   password?: boolean
@@ -52,25 +52,25 @@ const TextField = ({
           <S.InputWrapper>
             {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
             {mask ? (
-              <InputMask
+              <InputMaskHydrated
                 mask={mask ?? ''}
                 onChange={onChange}
                 onFocus={handleOnFocus}
-                onBlur={handleOnBlur}
+                onBlur={() => handleOnBlur?.(value)}
               >
-                <S.InputMask
+                <S.InputInnerMask
                   type={'text'}
                   name={name}
                   {...(label ? { id: name } : {})}
                   {...props}
                 />
-              </InputMask>
+              </InputMaskHydrated>
             ) : (
               <S.Input
                 type={password && !visiblePassword ? 'password' : 'text'}
                 onChange={onChange}
                 onFocus={handleOnFocus}
-                onBlur={handleOnBlur}
+                onBlur={() => handleOnBlur?.(value)}
                 value={value}
                 disabled={disabled}
                 name={name}

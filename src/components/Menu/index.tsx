@@ -27,7 +27,7 @@ const Menu = ({ menuItems, logoImageUrl }: MenuProps) => (
             </S.MenuList>
           ))}
         </S.MenuListWrapper>
-        <Link href="/" passHref>
+        <Link href="/dashboard" passHref>
           <a>
             <S.Logo src={logoImageUrl} />
           </a>

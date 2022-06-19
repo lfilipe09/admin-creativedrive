@@ -28,9 +28,9 @@ const ContentWrapper = ({
   topIcon
 }: ContentWrapperProps) => {
   return (
-    <>
+    <div style={{ width: '100%' }}>
       <S.Title>{title}</S.Title>
-      <S.Wrapper>
+      <S.Wrapper isText={!!title}>
         {!!topIcon && <S.Icon size={size}>{topIcon}</S.Icon>}
         <S.ChildrenWrapper size={size}>{children}</S.ChildrenWrapper>
         <S.ButtonGroup size={size}>
@@ -61,7 +61,7 @@ const ContentWrapper = ({
           )}
         </S.ButtonGroup>
       </S.Wrapper>
-    </>
+    </div>
   )
 }
 

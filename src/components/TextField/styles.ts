@@ -80,7 +80,7 @@ export const Input = styled.input<InputProps>`
   `}
 `
 
-export const InputMask = styled.input`
+export const InputInnerMask = styled.input`
   ${({ theme }) => css`
     color: ${theme.colors.white};
     font-family: ${theme.font.family};

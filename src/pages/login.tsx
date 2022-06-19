@@ -1,5 +1,5 @@
 import SignIn from 'templates/SignIn'
 
-export default function Home() {
+export default function SignInPage() {
   return <SignIn />
 }

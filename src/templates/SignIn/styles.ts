@@ -46,7 +46,7 @@ export const Wrapper = styled.div`
 
 export const WrapperImg = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url(${signupBG.src});
   background-size: cover;
   background-repeat: no-repeat;
