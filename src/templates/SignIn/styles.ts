@@ -53,6 +53,6 @@ export const WrapperImg = styled.div`
 `
 
 export const FormWrapper = styled.div`
-  max-width: 40rem;
+  max-width: 30rem;
   margin: 2rem 0;
 `

@@ -10,7 +10,7 @@ export type FormSignInProps = {
   onSubmit: (value: UserFormSignIn) => void
 }
 
-const FormSignUp = ({ onSubmit }: FormSignInProps) => {
+const FormSignIn = ({ onSubmit }: FormSignInProps) => {
   const [fieldError, setFieldError] = useState<FieldErrors>({})
   const [values, setValues] = useState<UserFormSignIn>({
     email: '',
@@ -71,4 +71,4 @@ const FormSignUp = ({ onSubmit }: FormSignInProps) => {
   )
 }
 
-export default FormSignUp
+export default FormSignIn
