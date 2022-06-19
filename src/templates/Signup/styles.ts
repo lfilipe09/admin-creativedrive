@@ -50,6 +50,9 @@ export const WrapperImg = styled.div`
   background-image: url(${signupBG.src});
   background-size: cover;
   background-repeat: no-repeat;
+  ${media.lessThan('medium')`
+    background-size: contain;
+  `}
 `
 
 export const FormWrapper = styled.div`

@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import * as S from './styles'
 
-const SignUp = () => {
+const SignUpTemplate = () => {
   return (
     <S.WrapperImg>
       <S.Wrapper>
@@ -29,4 +29,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignUpTemplate

@@ -4,7 +4,7 @@ import HeroHeading from 'components/HeroHeading'
 
 import * as S from './styles'
 
-const SignIn = () => {
+const SignInTemplate = () => {
   return (
     <S.WrapperImg>
       <S.Wrapper>
@@ -22,4 +22,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default SignInTemplate

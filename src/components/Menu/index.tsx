@@ -2,6 +2,7 @@ import * as S from './styles'
 import Link from 'next/link'
 import MediaMatch from 'components/MediaMatch'
 import { Plus } from '@styled-icons/feather'
+import { DefaultBreakpoints } from 'styled-media-query'
 
 export type MenuItem = {
   label: string
@@ -12,11 +13,16 @@ export type MenuItem = {
 export type MenuProps = {
   menuItems: MenuItem[]
   logoImageUrl: string
+  Breakpoint?: keyof DefaultBreakpoints
 }
 
-const Menu = ({ menuItems, logoImageUrl }: MenuProps) => (
+const Menu = ({
+  menuItems,
+  logoImageUrl,
+  Breakpoint = 'medium'
+}: MenuProps) => (
   <>
-    <MediaMatch greaterThan="medium">
+    <MediaMatch greaterThan={Breakpoint}>
       <S.Wrapper>
         <S.MenuListWrapper>
           {menuItems.map((menuItem) => (
@@ -34,7 +40,7 @@ const Menu = ({ menuItems, logoImageUrl }: MenuProps) => (
         </Link>
       </S.Wrapper>
     </MediaMatch>
-    <MediaMatch lessThan="medium">
+    <MediaMatch lessThan={Breakpoint}>
       <S.FixedMenuWrapper>
         <S.FixedMenuItem>
           {menuItems.map((menuItem) => (

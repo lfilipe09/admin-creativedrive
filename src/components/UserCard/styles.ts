@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.main`
   ${({ theme }) => css`
-    max-width: 22rem;
     padding-bottom: 2rem;
     border-bottom: 0.5px solid ${theme.colors.lightGray};
   `}

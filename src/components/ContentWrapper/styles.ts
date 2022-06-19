@@ -33,6 +33,9 @@ export const Title = styled.p`
     letter-spacing: 0.05rem;
     font-size: ${theme.font.sizes.small};
     margin-bottom: 0.5rem;
+    ${media.lessThan('medium')`
+      display: none;
+    `}
   `}
 `
 

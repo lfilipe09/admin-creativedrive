@@ -51,23 +51,16 @@ export const IndicatiorsWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     grid-gap: ${theme.spacings.small};
-    ${media.lessThan('medium')`
-      flex-direction: column;
-      grid-gap:0;
-    `}
   `}
 `
 
 export const DashboardsWrapper = styled.div`
   ${({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    grid-gap: ${theme.spacings.xxlarge};
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 3rem;
     max-width: 70rem;
     padding-bottom: ${theme.spacings.large};
-    ${media.lessThan('medium')`
-      grid-gap:0;
-    `}
   `}
 `
 
