@@ -55,6 +55,7 @@ const FormSignEditUser = ({ onSubmit, buttonText }: FormSignEditUserProps) => {
         <TextField
           label={'Nome'}
           name={'name'}
+          minimal={true}
           icon={<User size={'1.5rem'} />}
           placeholder={'Primeiro nome'}
           error={fieldError?.name}
@@ -65,6 +66,7 @@ const FormSignEditUser = ({ onSubmit, buttonText }: FormSignEditUserProps) => {
         <TextField
           label={'Sobrenome'}
           name={'surname'}
+          minimal={true}
           icon={<User size={'1.5rem'} />}
           placeholder={'Último nome'}
           error={fieldError?.surname}
@@ -77,6 +79,7 @@ const FormSignEditUser = ({ onSubmit, buttonText }: FormSignEditUserProps) => {
         <TextField
           label={'CPF'}
           name={'cpf'}
+          minimal={true}
           icon={<Hash size={'1.5rem'} />}
           placeholder={'000.000.000-00'}
           mask={'999.999.999-99'}
@@ -94,6 +97,7 @@ const FormSignEditUser = ({ onSubmit, buttonText }: FormSignEditUserProps) => {
         <Dropdown
           label={'Perfil'}
           icon={<Globe size={'1.5rem'} />}
+          minimal={true}
           options={['Administrador', 'Usuário']}
           initialValue={'Administrador'}
           onDropdownChange={(v) => handleInput('profile', v)}
@@ -102,6 +106,7 @@ const FormSignEditUser = ({ onSubmit, buttonText }: FormSignEditUserProps) => {
       <TextField
         label={'E-mail'}
         name={'email'}
+        minimal={true}
         icon={<AtSign size={'1.5rem'} />}
         placeholder={'email@example.com'}
         error={fieldError?.email}
@@ -112,6 +117,7 @@ const FormSignEditUser = ({ onSubmit, buttonText }: FormSignEditUserProps) => {
       <TextField
         label={'Senha'}
         name={'password'}
+        minimal={true}
         icon={<Lock size={'1.5rem'} />}
         placeholder={'Insira sua senha'}
         password={true}

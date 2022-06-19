@@ -5,8 +5,8 @@ export const DropdownParentWrapper = styled.div`
 `
 
 const DropdownLabelWrapperModifier = {
-  minimal: (theme: DefaultTheme) => css`
-    background: ${theme.colors.black};
+  minimal: (theme: DefaultTheme, isOpen: boolean) => css`
+    background: ${isOpen ? theme.colors.black : 'transparent'};
     border: 1px solid ${theme.colors.darkGray};
   `
 }
@@ -50,7 +50,7 @@ export const DropdownLabelWrapper = styled.button<DropdownLabelWrapperProps>`
       border-bottom-left-radius 0.5s ease, border-bottom 0.5s ease;
     padding: ${dropdownHeight == 'big' ? '0.6rem' : '0'}
       ${dropdownHeight == 'big' ? theme.spacings.xsmall : '0.5rem'};
-    ${minimal && DropdownLabelWrapperModifier.minimal(theme)}
+    ${minimal && DropdownLabelWrapperModifier.minimal(theme, isOpen)}
   `}
 `
 
@@ -150,7 +150,7 @@ export const DropdownPanel = styled.div<DropdownPanelProps>`
     visibility: ${isOpen ? 'visible' : 'hidden'};
     opacity: ${isOpen ? '100%' : '0%'};
     transition: transform 0.5s ease, visibility 0.5s ease, opacity 0.5s ease;
-    ${minimal && DropdownLabelWrapperModifier.minimal(theme)}
+    ${minimal && DropdownLabelWrapperModifier.minimal(theme, isOpen)}
   `}
 `
 
