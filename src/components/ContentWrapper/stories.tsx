@@ -3,7 +3,7 @@ import { User, Users } from '@styled-icons/feather'
 import DashboardData from 'components/DashboardData'
 import Empty from 'components/Empty'
 import Table from 'components/Table'
-import tableMock from 'components/Table/mock'
+import { tableMock } from 'components/Table/mock'
 import ContentWrapper, { ContentWrapperProps } from '.'
 
 export default {

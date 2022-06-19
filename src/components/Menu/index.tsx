@@ -52,7 +52,7 @@ const Menu = ({
             </Link>
           ))}
         </S.FixedMenuItem>
-        <Link href={'/create-user'} passHref>
+        <Link href={'/criar-usuario'} passHref>
           <S.PlusIcon>
             <Plus size={'1.5rem'} strokeWidth={3} />
           </S.PlusIcon>

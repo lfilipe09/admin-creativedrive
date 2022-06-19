@@ -1,6 +1,7 @@
 import { Container } from 'components/Container'
 import FormSignUp from 'components/FormSignUp'
 import HeroHeading from 'components/HeroHeading'
+
 import Link from 'next/link'
 
 import * as S from './styles'
