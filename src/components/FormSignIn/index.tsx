@@ -1,6 +1,7 @@
 import { AtSign, ChevronRight, Lock } from '@styled-icons/feather'
 import Button from 'components/Button'
 import TextField from 'components/TextField'
+import WarningAlert from 'components/Warning'
 import { useState } from 'react'
 import { UserFormSignIn } from 'types/userTypes'
 import { FieldErrors, UserValidateSignin } from 'utils/validations'
@@ -8,9 +9,10 @@ import * as S from './styles'
 
 export type FormSignInProps = {
   onSubmit: (value: UserFormSignIn) => void
+  error?: string
 }
 
-const FormSignIn = ({ onSubmit }: FormSignInProps) => {
+const FormSignIn = ({ onSubmit, error }: FormSignInProps) => {
   const [fieldError, setFieldError] = useState<FieldErrors>({})
   const [values, setValues] = useState<UserFormSignIn>({
     email: '',
@@ -37,6 +39,11 @@ const FormSignIn = ({ onSubmit }: FormSignInProps) => {
 
   return (
     <S.Wrapper onSubmit={handleSubmit}>
+      {!!error && (
+        <div style={{ marginBottom: '1rem' }}>
+          <WarningAlert title={error} />
+        </div>
+      )}
       <TextField
         label={'E-mail'}
         name={'email'}

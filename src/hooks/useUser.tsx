@@ -9,8 +9,8 @@ export interface UserProviderProps {
 
 export type UserProps = {
   users: User[]
-  getUsers: (offset: number) => void
-  getUser: (email: string) => void
+  getUsers: (offset: number, amount?: number) => void
+  validateUser: (email: string, password: string) => void
   createUser: (user: UserForm) => void
   updateUser: (id: string, data: UserUpdate) => void
   deleteUser: (id: string) => void
@@ -31,22 +31,24 @@ export function UserProvider({ children }: UserProviderProps) {
     return []
   })
 
-  const getUsers = (offset: number) => {
+  const getUsers = (offset: number, amount = 10) => {
     const AllUsers = getStorageItem('users')
     const usersTemp = []
+    let cont = 0
 
     if (AllUsers === null) {
       return null
     }
 
     for (let i = offset; i < AllUsers?.length; i++) {
-      usersTemp.push(AllUsers[i])
+      cont < amount && usersTemp.push(AllUsers[i])
+      cont += 1
     }
 
     return usersTemp
   }
 
-  const getUser = (email: string) => {
+  const validateUser = (email: string, password: string) => {
     // const AllUsers = await api(`/api/get-users`)
     const AllUsers: User[] = getStorageItem('users')
 
@@ -57,6 +59,10 @@ export function UserProvider({ children }: UserProviderProps) {
     const UserExist = AllUsers.find((userStored) => userStored.email === email)
 
     if (!UserExist) {
+      return null
+    }
+
+    if (UserExist.password !== password) {
       return null
     }
 
@@ -141,7 +147,7 @@ export function UserProvider({ children }: UserProviderProps) {
         createUser,
         deleteUser,
         updateUser,
-        getUser
+        validateUser
       }}
     >
       {children}

@@ -12,7 +12,7 @@ export interface AuthProviderProps {
 
 export type AuthProps = {
   validateAuth: () => boolean
-  createAuth: (email: string) => void
+  createAuth: () => void
 }
 
 export const AuthContext = createContext<AuthProps>({} as AuthProps)
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   )
 }
 
-export function useUser(): AuthProps {
+export function useAuth(): AuthProps {
   const context = useContext(AuthContext)
 
   return context
