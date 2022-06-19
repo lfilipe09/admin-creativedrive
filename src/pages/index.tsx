@@ -1,5 +1,5 @@
-import Main from 'components/Main'
+import SignUp from 'templates/Signup'
 
 export default function Home() {
-  return <Main />
+  return <SignUp />
 }

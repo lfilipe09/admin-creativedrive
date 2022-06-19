@@ -1,6 +1,6 @@
 export default {
   grid: {
-    container: '130rem',
+    container: '87rem',
     gutter: '3.2rem'
   },
   border: {
@@ -39,7 +39,7 @@ export default {
     blackSecondaryDesktopGradient:
       'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)',
     blackMobileGradient:
-      'linear-gradient(8deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)'
+      'linear-gradient(8deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 82%, rgba(0,0,0,0) 100%)'
   },
   spacings: {
     xxsmall: '0.8rem',
