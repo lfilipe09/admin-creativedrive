@@ -20,19 +20,18 @@ export const UserContext = createContext<UserProps>({} as UserProps)
 
 export function UserProvider({ children }: UserProviderProps) {
   const [users, setUsers] = useState<User[]>(() => {
-    const storagedCart = getStorageItem('users')
+    const storagedUser = getStorageItem('users')
 
     //arrumando o carrinho que já vem sem amount
 
-    if (storagedCart) {
-      return storagedCart
+    if (storagedUser) {
+      return storagedUser
     }
 
     return []
   })
 
   const getUsers = (offset: number) => {
-    // const AllUsers = await api(`/api/get-users`)
     const AllUsers = getStorageItem('users')
     const usersTemp = []
 
