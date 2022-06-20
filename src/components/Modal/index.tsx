@@ -23,7 +23,13 @@ const Modal = ({ onDelete, onReturn }: ModalProps) => (
         <S.Alert>Essa ação não tem volta</S.Alert>
       </S.ContentWrapper>
       <S.ButtonGroup>
-        <Button onClick={onDelete} minimalButton={true}>
+        <Button
+          onClick={() => {
+            onDelete()
+            onReturn()
+          }}
+          minimalButton={true}
+        >
           Deletar
         </Button>
         <Button

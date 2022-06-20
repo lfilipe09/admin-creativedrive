@@ -12,6 +12,7 @@ export type UserProps = {
   users: User[]
   getUsersPaginated: (offset: number, amount?: number) => null | User[]
   validateUser: (email: string, password: string) => void
+  getUserByEmail: (email: string) => User | null
   createUser: (user: UserForm) => void
   updateUser: (id: string, data: UserUpdate) => void
   deleteUser: (id: string) => void
@@ -61,7 +62,6 @@ export function UserProvider({ children }: UserProviderProps) {
   }
 
   const validateUser = (email: string, password: string) => {
-    // const AllUsers = await api(`/api/get-users`)
     const AllUsers: User[] = getStorageItem('users')
 
     if (AllUsers === null) {
@@ -75,6 +75,22 @@ export function UserProvider({ children }: UserProviderProps) {
     }
 
     if (UserExist.password !== password) {
+      return null
+    }
+
+    return UserExist
+  }
+
+  const getUserByEmail = (email: string) => {
+    const AllUsers: User[] = getStorageItem('users')
+
+    if (AllUsers === null) {
+      return null
+    }
+
+    const UserExist = AllUsers.find((userStored) => userStored.email === email)
+
+    if (!UserExist) {
       return null
     }
 
@@ -170,6 +186,7 @@ export function UserProvider({ children }: UserProviderProps) {
     <UserContext.Provider
       value={{
         getAllUsers,
+        getUserByEmail,
         users,
         getUsersPaginated,
         createUser,

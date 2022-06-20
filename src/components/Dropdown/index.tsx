@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp } from '@styled-icons/feather'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from './styles'
 
 export type DropdownProps = {
@@ -27,6 +27,10 @@ const Dropdown = ({
   const [restOptions, setRestOptions] = useState(
     options.filter((option) => option !== initialValue)
   )
+
+  useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
 
   return (
     <S.DropdownParentWrapper>

@@ -4,6 +4,12 @@ export const TableWrapper = styled.table`
   width: 100%;
   border-collapse: collapse;
 `
+export type ModalProps = { isOpen: boolean }
+export const Modal = styled.div<ModalProps>`
+  ${({ isOpen }) => css`
+    display: ${isOpen ? 'block' : 'none'};
+  `}
+`
 
 export const TableLine = styled.tr`
   ${({ theme }) => css`

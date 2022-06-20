@@ -3,6 +3,7 @@ import ReactInputMask from 'react-input-mask'
 
 export type InputMaskProps = {
   mask: string
+  value: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   onFocus?: () => void
   onBlur?: () => void

@@ -1,5 +1,5 @@
 import { Eye, EyeOff } from '@styled-icons/feather'
-import { useState, InputHTMLAttributes } from 'react'
+import { useState, InputHTMLAttributes, useEffect } from 'react'
 import * as S from './styles'
 import InputMaskHydrated from 'components/InputMask'
 
@@ -40,10 +40,13 @@ const TextField = ({
   const [visiblePassword, setVisiblePassword] = useState(false)
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.value
-    console.log(newValue)
     setValue(newValue)
     !!onInputChange && onInputChange(newValue)
   }
+
+  useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
 
   return (
     <S.Wrapper disabled={disabled} error={!!error}>
@@ -55,6 +58,7 @@ const TextField = ({
             {mask ? (
               <InputMaskHydrated
                 mask={mask ?? ''}
+                value={value}
                 onChange={onChange}
                 onFocus={handleOnFocus}
                 onBlur={() => handleOnBlur?.(value)}

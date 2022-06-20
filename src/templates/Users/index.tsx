@@ -41,6 +41,7 @@ const UsersTemplate = () => {
   ) {
     const profilesPics: JSX.Element[] = []
     const names: string[] = []
+    const email: string[] = []
     const activities: string[] = []
     const profile: string[] = []
 
@@ -48,12 +49,14 @@ const UsersTemplate = () => {
       if (type === 'general') {
         profilesPics.push(<User size={'1rem'} key={''} />)
         names.push(user.name)
+        email.push(user.email)
         activities.push(user.activity)
         profile.push(user.profile)
       } else if (type === 'admin') {
         if (user.profile === 'Administrador') {
           profilesPics.push(<User size={'1rem'} key={''} />)
           names.push(user.name)
+          email.push(user.email)
           activities.push(user.activity)
           profile.push(user.profile)
         }
@@ -61,6 +64,7 @@ const UsersTemplate = () => {
         if (user.activity === 'Inativo') {
           profilesPics.push(<User size={'1rem'} key={''} />)
           names.push(user.name)
+          email.push(user.email)
           activities.push(user.activity)
           profile.push(user.profile)
         }
@@ -72,12 +76,12 @@ const UsersTemplate = () => {
         ? [
             { foto: profilesPics },
             { nome: names },
-            { perfil: profile },
+            { email: email },
             { atividade: activities }
           ]
         : type === 'admin'
-        ? [{ foto: profilesPics }, { nome: names }, { atividade: activities }]
-        : [{ foto: profilesPics }, { nome: names }, { perfil: profile }]
+        ? [{ foto: profilesPics }, { nome: names }, { email: email }]
+        : [{ foto: profilesPics }, { nome: names }, { email: email }]
 
     const MobileCard: UserCardProps[] = []
     usersPaginated.map((user) => {
@@ -184,6 +188,15 @@ const UsersTemplate = () => {
                     OnDeleteLine={(email) => {
                       console.log(email)
                     }}
+                    handleChangeLine={(email) => {
+                      console.log(email)
+                      push({
+                        pathname: '/editar-usuario',
+                        query: {
+                          email: email
+                        }
+                      })
+                    }}
                     onChangeLine={(email, data) => {
                       console.log(email)
                       console.log(data)
@@ -228,6 +241,14 @@ const UsersTemplate = () => {
                       }
                       isEditable={true}
                       editableFields={['nome', 'perfil', 'email', 'atividade']}
+                      handleChangeLine={(email) => {
+                        push({
+                          pathname: '/editar-usuario',
+                          query: {
+                            email: email
+                          }
+                        })
+                      }}
                       OnDeleteLine={(email) => {
                         console.log(email)
                       }}
@@ -270,6 +291,14 @@ const UsersTemplate = () => {
                       }
                       isEditable={true}
                       editableFields={['nome', 'perfil', 'email', 'atividade']}
+                      handleChangeLine={(email) => {
+                        push({
+                          pathname: '/editar-usuario',
+                          query: {
+                            email: email
+                          }
+                        })
+                      }}
                       OnDeleteLine={(email) => {
                         console.log(email)
                       }}
