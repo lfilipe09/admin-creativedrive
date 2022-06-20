@@ -3,7 +3,7 @@
 
 - ✅ Typescript
 - ✅ Testes unitários
-- ✅ Mobile frindly
+- ✅ Mobile friendly
 - ✅ Validação de formulário
 - ✅ Deploy da aplicação
 - ✅ Paginação
