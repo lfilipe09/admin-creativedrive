@@ -1,5 +1,5 @@
-import CreateUserTemplate from '../templates/Createuser'
+import Create from 'templates/Create'
 
 export default function CreateUserPage() {
-  return <CreateUserTemplate />
+  return <Create />
 }

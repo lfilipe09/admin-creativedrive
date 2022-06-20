@@ -1,5 +1,5 @@
-import UsersTemplate from '../templates/Users'
+import Users from '../templates/Users'
 
 export default function UsersPage() {
-  return <UsersTemplate />
+  return <Users />
 }

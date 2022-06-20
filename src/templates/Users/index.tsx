@@ -21,7 +21,7 @@ import { User as UserType } from 'types/userTypes'
 
 import * as S from './styles'
 
-const UsersTemplate = () => {
+const Users = () => {
   const {
     searchUser,
     getAllUsers,
@@ -448,4 +448,4 @@ const UsersTemplate = () => {
   )
 }
 
-export default UsersTemplate
+export default Users

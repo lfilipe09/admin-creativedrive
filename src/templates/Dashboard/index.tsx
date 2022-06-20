@@ -38,7 +38,7 @@ export type UsersPaginated = {
   mobile: UserCardProps[]
 }
 
-const DashboardTemplate = () => {
+const Dashboard = () => {
   const {
     getAllUsers,
     getUsersPaginated,
@@ -424,4 +424,4 @@ const DashboardTemplate = () => {
   )
 }
 
-export default DashboardTemplate
+export default Dashboard

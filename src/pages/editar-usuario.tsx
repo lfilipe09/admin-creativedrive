@@ -1,5 +1,5 @@
-import EditUserTemplate from '../templates/Edituser'
+import Edition from 'templates/Edition'
 
 export default function EditUserPage() {
-  return <EditUserTemplate />
+  return <Edition />
 }

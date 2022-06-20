@@ -1,5 +1,5 @@
-import SignInTemplate from '../templates/Signin'
+import Auth from 'templates/Auth'
 
-export default function SignInPage() {
-  return <SignInTemplate />
+export default function SignIn() {
+  return <Auth />
 }

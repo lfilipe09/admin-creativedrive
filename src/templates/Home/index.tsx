@@ -9,7 +9,7 @@ import * as S from './styles'
 import { useAuth } from 'hooks/useAuth'
 import { useRouter } from 'next/router'
 
-const SignUpTemplate = () => {
+const Home = () => {
   const { createUser } = useUser()
   const { createAuth } = useAuth()
   const routes = useRouter()
@@ -43,4 +43,4 @@ const SignUpTemplate = () => {
   )
 }
 
-export default SignUpTemplate
+export default Home

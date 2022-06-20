@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import * as S from './styles'
 import Link from 'next/link'
 
-const SignInTemplate = () => {
+const Auth = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const { validateUser } = useUser()
   const { createAuth } = useAuth()
@@ -51,4 +51,4 @@ const SignInTemplate = () => {
   )
 }
 
-export default SignInTemplate
+export default Auth

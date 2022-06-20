@@ -10,28 +10,33 @@ import { useAuth } from 'hooks/useAuth'
 import { useUser } from 'hooks/useUser'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { User } from 'types/userTypes'
 import * as S from './styles'
 
-const CreateUserTemplate = () => {
-  const { createUser, getUserByEmail } = useUser()
-  const { validateAuth, getAuth } = useAuth()
-  const routes = useRouter()
-  const { push } = routes
+const Edition = () => {
+  const { getUserByEmail, updateUser } = useUser()
+  const { getAuth } = useAuth()
+  const [user, setUser] = useState<User>()
+  const [userDisabled, setUserDisabled] = useState(false)
+  const router = useRouter()
+  const { push } = router
   useEffect(() => {
-    const session = validateAuth()
-    !session && push('/login')
+    let usersTemp: User | null = null
+    usersTemp = getUserByEmail(router.query.email as string)
+    usersTemp && setUser(usersTemp)
     const userProfileTemp = getAuth()
     const userTemp =
       userProfileTemp && getUserByEmail(userProfileTemp?.userEmail)
     userTemp?.profile === 'Usuário' && push('/dashboard')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   return (
     <S.Wrapper>
       <Container>
         <S.Icon>
-          <Link href={'/dashboard'} passHref>
+          <Link href={'/users'} passHref>
             <Button
               as={'a'}
               icon={<X size={'2rem'} strokeWidth={1} />}
@@ -42,12 +47,25 @@ const CreateUserTemplate = () => {
         <MediaMatch greaterThan={'medium'}>
           <ContentWrapper title={'Perfil'}>
             <S.FormWrapper>
-              <EditProfile />
+              <EditProfile
+                textDisable={
+                  userDisabled ? 'Ativar usuário' : 'Desativar usuario'
+                }
+                onDisable={() => {
+                  user &&
+                    updateUser(user?.id, {
+                      activity: userDisabled ? 'Ativo' : 'Inativo'
+                    })
+                  setUserDisabled(!userDisabled)
+                }}
+              />
               <FormSignEditUser
-                buttonText={'Criar usuario'}
+                initialValues={user}
+                buttonText={'Alterar dados'}
                 onSubmit={(value) => {
-                  createUser(value)
-                  push('/dashboard')
+                  user && updateUser(user?.id, value)
+                  push('/users')
+                  console.log('Fez o submit', value)
                 }}
               />
             </S.FormWrapper>
@@ -55,13 +73,15 @@ const CreateUserTemplate = () => {
         </MediaMatch>
         <MediaMatch lessThan={'medium'}>
           <S.FormWrapper>
-            <Heading title={'Criar usuário'} />
-            <EditProfile />
+            <Heading title={'Edição avançada'} />
+            <EditProfile onDisable={() => console.log('desativando usuário')} />
             <FormSignEditUser
-              buttonText={'Criar usuario'}
+              initialValues={user}
+              buttonText={'Alterar dados'}
               onSubmit={(value) => {
-                createUser(value)
-                push('/dashboard')
+                user && updateUser(user?.id, value)
+                push('/users')
+                console.log('Fez o submit', value)
               }}
             />
           </S.FormWrapper>
@@ -71,4 +91,4 @@ const CreateUserTemplate = () => {
   )
 }
 
-export default CreateUserTemplate
+export default Edition
