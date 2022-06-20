@@ -9,6 +9,7 @@ import Button from 'components/Button'
 import { Container } from 'components/Container'
 import ContentWrapper from 'components/ContentWrapper'
 import DashboardData from 'components/DashboardData'
+import Empty from 'components/Empty'
 import Heading from 'components/Heading'
 import MediaMatch from 'components/MediaMatch'
 import Menu from 'components/Menu'
@@ -101,13 +102,7 @@ const DashboardTemplate = () => {
         creationDate: user.created_at,
         activity: user.activity,
         email: user.email,
-        role: user.profile,
-        onDeleteData: () => {
-          console.log('deeltar')
-        },
-        onEditData: () => {
-          console.log('editar')
-        }
+        role: user.profile
       })
     })
 
@@ -151,122 +146,201 @@ const DashboardTemplate = () => {
               <ContentWrapper
                 title="Dashboard"
                 topIcon={<User size={'1.5rem'} />}
-                size={'small'}
-                RedirectUrlRightButton={'/users'}
+                size={
+                  usersTypeAmount && usersTypeAmount?.actives > 0
+                    ? 'small'
+                    : undefined
+                }
+                RedirectUrlRightButton={
+                  usersTypeAmount && usersTypeAmount?.actives > 0
+                    ? '/users'
+                    : '/criar-usuario'
+                }
               >
-                <DashboardData
-                  dataNumber={usersTypeAmount?.actives}
-                  title={
-                    usersTypeAmount?.actives === 1
-                      ? 'Colaborador'
-                      : 'Colaboradores'
-                  }
-                  isActive={true}
-                  icon={<Users strokeWidth={1} width={'1.2rem'} />}
-                />
+                {
+                  <div
+                    style={{
+                      margin: usersTypeAmount?.actives === 0 ? '2rem' : '0'
+                    }}
+                  >
+                    <DashboardData
+                      dataNumber={
+                        usersTypeAmount?.actives === 0
+                          ? undefined
+                          : usersTypeAmount?.actives
+                      }
+                      title={
+                        usersTypeAmount?.actives === 0
+                          ? 'Nenhum colaborador cadastrado'
+                          : usersTypeAmount?.actives === 1
+                          ? 'Colaborador'
+                          : 'Colaboradores'
+                      }
+                      isActive={usersTypeAmount?.actives !== 0}
+                      icon={<Users strokeWidth={1} width={'1.2rem'} />}
+                    />
+                  </div>
+                }
               </ContentWrapper>
               <ContentWrapper
                 topIcon={<User size={'1.5rem'} />}
-                size={'small'}
-                RedirectUrlRightButton={'/users'}
+                size={
+                  usersTypeAmount && usersTypeAmount?.admin > 0
+                    ? 'small'
+                    : undefined
+                }
+                RedirectUrlRightButton={
+                  usersTypeAmount && usersTypeAmount?.admin > 0
+                    ? '/users'
+                    : '/criar-usuario'
+                }
               >
-                <DashboardData
-                  dataNumber={usersTypeAmount?.admin}
-                  title={
-                    usersTypeAmount?.admin === 1
-                      ? 'Administrador'
-                      : 'Administradores'
-                  }
-                  isActive={true}
-                  icon={<Users strokeWidth={1} width={'1.2rem'} />}
-                />
+                <div
+                  style={{
+                    margin: usersTypeAmount?.admin === 0 ? '2rem' : '0'
+                  }}
+                >
+                  <DashboardData
+                    dataNumber={
+                      usersTypeAmount?.admin === 0
+                        ? undefined
+                        : usersTypeAmount?.admin
+                    }
+                    title={
+                      usersTypeAmount?.actives === 0
+                        ? 'Nenhum administrador cadastrado'
+                        : usersTypeAmount?.admin === 1
+                        ? 'Administrador'
+                        : 'Administradores'
+                    }
+                    isActive={usersTypeAmount?.admin !== 0}
+                    icon={<Users strokeWidth={1} width={'1.2rem'} />}
+                  />
+                </div>
               </ContentWrapper>
               <ContentWrapper
                 topIcon={<User size={'1.5rem'} />}
-                size={'small'}
-                RedirectUrlRightButton={'/users'}
+                size={
+                  allUsersData && allUsersData?.length > 0 ? 'small' : undefined
+                }
+                RedirectUrlRightButton={
+                  usersTypeAmount && usersTypeAmount?.inactive > 0
+                    ? '/users'
+                    : '/criar-usuario'
+                }
               >
-                <DashboardData
-                  dataNumber={usersTypeAmount?.inactive}
-                  title={
-                    usersTypeAmount?.inactive === 1
-                      ? 'Perfil inativo'
-                      : 'Perfis inativos'
-                  }
-                  isActive={false}
-                  icon={<MinusCircle strokeWidth={1} width={'1.2rem'} />}
-                />
+                <div
+                  style={{
+                    margin: allUsersData?.length === 0 ? '2rem' : '0'
+                  }}
+                >
+                  <DashboardData
+                    dataNumber={
+                      allUsersData?.length === 0
+                        ? undefined
+                        : usersTypeAmount?.inactive
+                    }
+                    title={
+                      allUsersData?.length === 0
+                        ? 'Nenhum usuário inativo'
+                        : usersTypeAmount?.inactive === 1
+                        ? 'Perfil inativo'
+                        : 'Perfis inativos'
+                    }
+                    isActive={false}
+                    icon={<MinusCircle strokeWidth={1} width={'1.2rem'} />}
+                  />
+                </div>
               </ContentWrapper>
             </S.IndicatiorsWrapper>
             <MediaMatch greaterThan={'medium'}>
               <ContentWrapper
                 title={'Usuários da plataforma'}
-                rightButtonText={'Gerenciar usuarios'}
-                RedirectUrlRightButton={'/users'}
+                rightButtonText={
+                  allUsersData && allUsersData?.length > 0
+                    ? 'Gerenciar usuarios'
+                    : undefined
+                }
+                RedirectUrlRightButton={
+                  allUsersData && allUsersData?.length > 0
+                    ? '/users'
+                    : undefined
+                }
               >
-                <div style={{ padding: '0.5rem 2rem', width: '100%' }}>
-                  <S.ButtonTableGroup>
-                    <TextField
-                      icon={<Search size={'1rem'} strokeWidth={2} />}
-                      placeholder={'Buscar usuários'}
-                      inputHeight={'small'}
-                      minimal={true}
-                      outsideIcon={true}
-                    />
-                    <Link href={'/criar-usuario'} passHref>
-                      <Button
-                        as="a"
-                        icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
-                      >
-                        criar um novo usuario
-                      </Button>
-                    </Link>
-                  </S.ButtonTableGroup>
-                  <Table
-                    data={
-                      usersPaginatedState?.desktop
-                        ? usersPaginatedState.desktop
-                        : []
-                    }
-                    isEditable={true}
-                    editableFields={['name', 'activity']}
-                    OnDeleteLine={(email) => {
-                      const userToDelete = getUserByEmail(email)
-                      new Promise((res) => {
-                        res(userToDelete && deleteUser(userToDelete.id))
-                      }).then(() => {
-                        const usersData = getAllUsers()
-                        handleDashboardDataValues(usersData)
-                      })
-                    }}
-                    onChangeLine={(email, data) => {
-                      const userToUpdate = getUserByEmail(email)
-                      new Promise((res) => {
-                        res(userToUpdate && updateUser(userToUpdate.id, data))
-                      }).then(() => {
-                        const usersData = getAllUsers()
-                        handleDashboardDataValues(usersData)
-                      })
-                    }}
+                {allUsersData?.length === 0 ? (
+                  <Empty
+                    imgAlt="rocket"
+                    imgSrc="/img/empty-rocket.png"
+                    text="Crie agora o seu primeiro usuário"
+                    redirectURL="/criar-usuario"
                   />
-                  <S.FooterPagination>
-                    {allUsersData && allUsersData?.length > 5 && (
-                      <Pagination
-                        numberOfPages={
-                          allUsersData ? Math.ceil(allUsersData.length / 5) : 0
-                        }
-                        onPageChange={(value) => {
-                          const usersPaginated = getUsersPaginated(
-                            (value - 1) * 5,
-                            5
-                          )
-                          usersPaginated &&
-                            handlePaginationDataValues(usersPaginated)
-                        }}
+                ) : (
+                  <div style={{ padding: '0.5rem 2rem', width: '100%' }}>
+                    <S.ButtonTableGroup>
+                      <TextField
+                        icon={<Search size={'1rem'} strokeWidth={2} />}
+                        placeholder={'Buscar usuários'}
+                        inputHeight={'small'}
+                        minimal={true}
+                        outsideIcon={true}
                       />
-                    )}
-                  </S.FooterPagination>
-                </div>
+                      <Link href={'/criar-usuario'} passHref>
+                        <Button
+                          as="a"
+                          icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
+                        >
+                          criar um novo usuario
+                        </Button>
+                      </Link>
+                    </S.ButtonTableGroup>
+                    <Table
+                      data={
+                        usersPaginatedState?.desktop
+                          ? usersPaginatedState.desktop
+                          : []
+                      }
+                      isEditable={true}
+                      editableFields={['name', 'activity']}
+                      OnDeleteLine={(email) => {
+                        const userToDelete = getUserByEmail(email)
+                        new Promise((res) => {
+                          res(userToDelete && deleteUser(userToDelete.id))
+                        }).then(() => {
+                          const usersData = getAllUsers()
+                          handleDashboardDataValues(usersData)
+                        })
+                      }}
+                      onChangeLine={(email, data) => {
+                        const userToUpdate = getUserByEmail(email)
+                        new Promise((res) => {
+                          res(userToUpdate && updateUser(userToUpdate.id, data))
+                        }).then(() => {
+                          const usersData = getAllUsers()
+                          handleDashboardDataValues(usersData)
+                        })
+                      }}
+                    />
+                    <S.FooterPagination>
+                      {allUsersData && allUsersData?.length > 5 && (
+                        <Pagination
+                          numberOfPages={
+                            allUsersData
+                              ? Math.ceil(allUsersData.length / 5)
+                              : 0
+                          }
+                          onPageChange={(value) => {
+                            const usersPaginated = getUsersPaginated(
+                              (value - 1) * 5,
+                              5
+                            )
+                            usersPaginated &&
+                              handlePaginationDataValues(usersPaginated)
+                          }}
+                        />
+                      )}
+                    </S.FooterPagination>
+                  </div>
+                )}
               </ContentWrapper>
             </MediaMatch>
             <MediaMatch lessThan={'medium'}>
@@ -281,7 +355,34 @@ const DashboardTemplate = () => {
                 />
               </div>
               {usersPaginatedState?.mobile.map((user) => (
-                <UserCard key={user.email} {...user} />
+                <UserCard
+                  onDeleteData={(email) => {
+                    const userToDelete = getUserByEmail(email)
+                    new Promise((res) => {
+                      res(userToDelete && deleteUser(userToDelete.id))
+                    }).then(() => {
+                      const usersData = getAllUsers()
+                      handleDashboardDataValues(usersData)
+                      setUsersPaginatedState({
+                        desktop: usersPaginatedState.desktop,
+                        mobile: []
+                      })
+                      const usersPaginated = getUsersPaginated(0, 5)
+                      usersPaginated &&
+                        handlePaginationDataValues(usersPaginated)
+                    })
+                  }}
+                  onEditData={(email) => {
+                    push({
+                      pathname: '/editar-usuario',
+                      query: {
+                        email: email
+                      }
+                    })
+                  }}
+                  key={user.email}
+                  {...user}
+                />
               ))}
               <div
                 style={{

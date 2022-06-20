@@ -7,6 +7,14 @@ export const Wrapper = styled.main`
   `}
 `
 
+export type ModalProps = { isOpen: boolean }
+
+export const Modal = styled.div<ModalProps>`
+  ${({ isOpen }) => css`
+    display: ${isOpen ? 'block' : 'none'};
+  `}
+`
+
 export const UserWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

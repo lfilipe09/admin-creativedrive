@@ -2,6 +2,7 @@ import { PlusCircle, Search, User } from '@styled-icons/feather'
 import Button from 'components/Button'
 import { Container } from 'components/Container'
 import ContentWrapper from 'components/ContentWrapper'
+import Empty from 'components/Empty'
 import Heading from 'components/Heading'
 import MediaMatch from 'components/MediaMatch'
 import Menu from 'components/Menu'
@@ -91,13 +92,7 @@ const UsersTemplate = () => {
         creationDate: user.created_at,
         activity: user.activity,
         email: user.email,
-        role: user.profile,
-        onDeleteData: () => {
-          console.log('deeltar')
-        },
-        onEditData: () => {
-          console.log('editar')
-        }
+        role: user.profile
       })
     })
 
@@ -160,71 +155,82 @@ const UsersTemplate = () => {
           <MediaMatch greaterThan="large">
             <S.DashboardsWrapper>
               <ContentWrapper title={'Usuários da plataforma'}>
-                <div style={{ width: '100%' }}>
-                  <S.ButtonTableGroup>
-                    <TextField
-                      icon={<Search size={'1rem'} strokeWidth={2} />}
-                      placeholder={'Buscar usuários'}
-                      inputHeight={'small'}
-                      minimal={true}
-                      outsideIcon={true}
-                    />
-                    <Link href={'/criar-usuario'} passHref>
-                      <Button
-                        as="a"
-                        icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
-                      >
-                        criar um novo usuario
-                      </Button>
-                    </Link>
-                  </S.ButtonTableGroup>
-                  <Table
-                    data={
-                      usersPaginatedState?.desktop
-                        ? usersPaginatedState.desktop
-                        : []
-                    }
-                    isEditable={true}
-                    editableFields={['nome', 'perfil', 'email', 'atividade']}
-                    OnDeleteLine={(email) => {
-                      const userToDelete = getUserByEmail(email)
-                      userToDelete && deleteUser(userToDelete.id)
-                    }}
-                    handleChangeLine={(email) => {
-                      console.log(email)
-                      push({
-                        pathname: '/editar-usuario',
-                        query: {
-                          email: email
-                        }
-                      })
-                    }}
-                    onChangeLine={(email, data) => {
-                      console.log(email)
-                      console.log(data)
-                    }}
+                {allUsersData?.length === 0 ? (
+                  <Empty
+                    imgAlt="rocket"
+                    imgSrc="/img/empty-rocket.png"
+                    text="Crie agora o seu primeiro usuário"
+                    redirectURL="/criar-usuario"
                   />
-                  <S.FooterPagination>
-                    {allUsersData && allUsersData?.length > 10 && (
-                      <Pagination
-                        numberOfPages={
-                          allUsersData ? Math.ceil(allUsersData.length / 5) : 0
-                        }
-                        onPageChange={(value) => {
-                          const usersPaginated = getUsersPaginated(
-                            (value - 1) * 10,
-                            10
-                          )
-                          usersPaginated &&
-                            handlePaginationDataValues(
-                              usersPaginated,
-                              'general'
-                            )
-                        }}
+                ) : (
+                  <div style={{ width: '100%' }}>
+                    <S.ButtonTableGroup>
+                      <TextField
+                        icon={<Search size={'1rem'} strokeWidth={2} />}
+                        placeholder={'Buscar usuários'}
+                        inputHeight={'small'}
+                        minimal={true}
+                        outsideIcon={true}
                       />
-                    )}
-                  </S.FooterPagination>
-                </div>
+                      <Link href={'/criar-usuario'} passHref>
+                        <Button
+                          as="a"
+                          icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
+                        >
+                          criar um novo usuario
+                        </Button>
+                      </Link>
+                    </S.ButtonTableGroup>
+                    <Table
+                      data={
+                        usersPaginatedState?.desktop
+                          ? usersPaginatedState.desktop
+                          : []
+                      }
+                      isEditable={true}
+                      editableFields={['nome', 'perfil', 'email', 'atividade']}
+                      OnDeleteLine={(email) => {
+                        const userToDelete = getUserByEmail(email)
+                        userToDelete && deleteUser(userToDelete.id)
+                      }}
+                      handleChangeLine={(email) => {
+                        console.log(email)
+                        push({
+                          pathname: '/editar-usuario',
+                          query: {
+                            email: email
+                          }
+                        })
+                      }}
+                      onChangeLine={(email, data) => {
+                        console.log(email)
+                        console.log(data)
+                      }}
+                    />
+                    <S.FooterPagination>
+                      {allUsersData && allUsersData?.length > 10 && (
+                        <Pagination
+                          numberOfPages={
+                            allUsersData
+                              ? Math.ceil(allUsersData.length / 5)
+                              : 0
+                          }
+                          onPageChange={(value) => {
+                            const usersPaginated = getUsersPaginated(
+                              (value - 1) * 10,
+                              10
+                            )
+                            usersPaginated &&
+                              handlePaginationDataValues(
+                                usersPaginated,
+                                'general'
+                              )
+                          }}
+                        />
+                      )}
+                    </S.FooterPagination>
+                  </div>
+                )}
               </ContentWrapper>
               <div
                 style={{
@@ -234,107 +240,127 @@ const UsersTemplate = () => {
                 }}
               >
                 <ContentWrapper title={'Administradores'}>
-                  <div style={{ width: '100%' }}>
-                    <Table
-                      data={
-                        adminPaginatedState?.desktop
-                          ? adminPaginatedState.desktop
-                          : []
-                      }
-                      isEditable={true}
-                      editableFields={['nome', 'perfil', 'email', 'atividade']}
-                      handleChangeLine={(email) => {
-                        push({
-                          pathname: '/editar-usuario',
-                          query: {
-                            email: email
-                          }
-                        })
-                      }}
-                      OnDeleteLine={(email) => {
-                        const userToDelete = getUserByEmail(email)
-                        userToDelete && deleteUser(userToDelete.id)
-                      }}
-                      onChangeLine={(email, data) => {
-                        console.log(email)
-                        console.log(data)
-                      }}
+                  {allUsersData?.length === 0 ? (
+                    <Empty
+                      imgAlt="rocket"
+                      imgSrc="/img/empty-admin.png"
+                      text="Nenhum administrador a vista"
                     />
-                    <S.FooterPagination>
-                      {allAdminData && allAdminData?.length > 5 && (
-                        <Pagination
-                          numberOfPages={
-                            allAdminData
-                              ? Math.ceil(allAdminData.length / 5)
-                              : 0
-                          }
-                          onPageChange={(value) => {
-                            const usersPaginated = getUsersPaginated(
-                              (value - 1) * 5,
-                              5
-                            )
-                            usersPaginated &&
-                              handlePaginationDataValues(
-                                usersPaginated,
-                                'admin'
+                  ) : (
+                    <div style={{ width: '100%' }}>
+                      <Table
+                        data={
+                          adminPaginatedState?.desktop
+                            ? adminPaginatedState.desktop
+                            : []
+                        }
+                        isEditable={true}
+                        editableFields={[
+                          'nome',
+                          'perfil',
+                          'email',
+                          'atividade'
+                        ]}
+                        handleChangeLine={(email) => {
+                          push({
+                            pathname: '/editar-usuario',
+                            query: {
+                              email: email
+                            }
+                          })
+                        }}
+                        OnDeleteLine={(email) => {
+                          const userToDelete = getUserByEmail(email)
+                          userToDelete && deleteUser(userToDelete.id)
+                        }}
+                        onChangeLine={(email, data) => {
+                          console.log(email)
+                          console.log(data)
+                        }}
+                      />
+                      <S.FooterPagination>
+                        {allAdminData && allAdminData?.length > 5 && (
+                          <Pagination
+                            numberOfPages={
+                              allAdminData
+                                ? Math.ceil(allAdminData.length / 5)
+                                : 0
+                            }
+                            onPageChange={(value) => {
+                              const usersPaginated = getUsersPaginated(
+                                (value - 1) * 5,
+                                5
                               )
-                          }}
-                        />
-                      )}
-                    </S.FooterPagination>
-                  </div>
+                              usersPaginated &&
+                                handlePaginationDataValues(
+                                  usersPaginated,
+                                  'admin'
+                                )
+                            }}
+                          />
+                        )}
+                      </S.FooterPagination>
+                    </div>
+                  )}
                 </ContentWrapper>
-                <ContentWrapper title={'Usuários inativos'}>
-                  <div style={{ width: '100%' }}>
-                    <Table
-                      data={
-                        inactivesPaginatedState?.desktop
-                          ? inactivesPaginatedState.desktop
-                          : []
-                      }
-                      isEditable={true}
-                      editableFields={['nome', 'perfil', 'email', 'atividade']}
-                      handleChangeLine={(email) => {
-                        push({
-                          pathname: '/editar-usuario',
-                          query: {
-                            email: email
-                          }
-                        })
-                      }}
-                      OnDeleteLine={(email) => {
-                        const userToDelete = getUserByEmail(email)
-                        userToDelete && deleteUser(userToDelete.id)
-                      }}
-                      onChangeLine={(email, data) => {
-                        console.log(email)
-                        console.log(data)
-                      }}
-                    />
-                    <S.FooterPagination>
-                      {allInactiveData && allInactiveData?.length > 5 && (
-                        <Pagination
-                          numberOfPages={
-                            allInactiveData
-                              ? Math.ceil(allInactiveData.length / 5)
-                              : 0
-                          }
-                          onPageChange={(value) => {
-                            const usersPaginated = getUsersPaginated(
-                              (value - 1) * 5,
-                              5
-                            )
-                            usersPaginated &&
-                              handlePaginationDataValues(
-                                usersPaginated,
-                                'inactive'
+                {allUsersData?.length !== 0 && (
+                  <ContentWrapper title={'Usuários inativos'}>
+                    <div style={{ width: '100%' }}>
+                      <Table
+                        data={
+                          inactivesPaginatedState?.desktop
+                            ? inactivesPaginatedState.desktop
+                            : []
+                        }
+                        isEditable={true}
+                        editableFields={[
+                          'nome',
+                          'perfil',
+                          'email',
+                          'atividade'
+                        ]}
+                        handleChangeLine={(email) => {
+                          push({
+                            pathname: '/editar-usuario',
+                            query: {
+                              email: email
+                            }
+                          })
+                        }}
+                        OnDeleteLine={(email) => {
+                          const userToDelete = getUserByEmail(email)
+                          userToDelete && deleteUser(userToDelete.id)
+                        }}
+                        onChangeLine={(email, data) => {
+                          console.log(email)
+                          console.log(data)
+                        }}
+                      />
+                      <S.FooterPagination>
+                        {allInactiveData && allInactiveData?.length > 5 && (
+                          <Pagination
+                            numberOfPages={
+                              allInactiveData
+                                ? Math.ceil(allInactiveData.length / 5)
+                                : 0
+                            }
+                            onPageChange={(value) => {
+                              const usersPaginated = getUsersPaginated(
+                                (value - 1) * 5,
+                                5
                               )
-                          }}
-                        />
-                      )}
-                    </S.FooterPagination>
-                  </div>
-                </ContentWrapper>
+                              usersPaginated &&
+                                handlePaginationDataValues(
+                                  usersPaginated,
+                                  'inactive'
+                                )
+                            }}
+                          />
+                        )}
+                      </S.FooterPagination>
+                    </div>
+                  </ContentWrapper>
+                )}
               </div>
             </S.DashboardsWrapper>
           </MediaMatch>
@@ -350,7 +376,32 @@ const UsersTemplate = () => {
               />
             </div>
             {usersPaginatedState?.mobile.map((user) => (
-              <UserCard key={user.creationDate} {...user} />
+              <UserCard
+                onDeleteData={(email) => {
+                  const userToDelete = getUserByEmail(email)
+                  new Promise((res) => {
+                    res(userToDelete && deleteUser(userToDelete.id))
+                  }).then(() => {
+                    setUsersPaginatedState({
+                      desktop: usersPaginatedState.desktop,
+                      mobile: []
+                    })
+                    const usersPaginated = getUsersPaginated(0, 5)
+                    usersPaginated &&
+                      handlePaginationDataValues(usersPaginated, 'general')
+                  })
+                }}
+                onEditData={(email) => {
+                  push({
+                    pathname: '/editar-usuario',
+                    query: {
+                      email: email
+                    }
+                  })
+                }}
+                key={user.creationDate}
+                {...user}
+              />
             ))}
 
             <div
