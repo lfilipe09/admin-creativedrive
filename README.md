@@ -69,7 +69,7 @@ Abra [http://localhost:3000](http://localhost:3000) no seu site e veja o resulta
 
 - Experiência customizada para celular, contando com menu inferior e adaptação de todas as tabelas
 
-# Validações
+# Validações de formulário
 
 ![Validação](https://user-images.githubusercontent.com/81202572/174574199-10ce65e4-3a61-490b-b8ca-f7927d333d5c.gif)
 
@@ -99,3 +99,33 @@ Abra [http://localhost:3000](http://localhost:3000) no seu site e veja o resulta
   - Campo obrigatório
   - Valida a entrada para que tenha no mínimo 8 dígitos
   -  Precisa ter no mínimo: 8 dígitos, 1 maiúscula, 1 minúscula, 1 número, 1 caracter especial
+
+
+# Busca
+![Busca](https://user-images.githubusercontent.com/81202572/174575253-3f67d6cc-dced-4b66-afec-3997355b6b8b.gif)
+
+
+# Autenticação
+  - Validação através de token no Localstorage
+  - A cada 1h o token é expirado e é necessário refazer o login
+  - Proteção das rotas que exigem autenticação
+  - O perfil Admin consegue editar e criar novos usuários, o usuário consegue apenas visualizar
+
+# Edição Rápida
+
+![EdicaoRapida](https://user-images.githubusercontent.com/81202572/174575749-2ea8ce8c-2245-4a10-86d4-03db857fcffe.gif)
+
+# Confirmação para ações sensíveis (deletar usuário)
+![ConfirmacaoAcaoSensivel](https://user-images.githubusercontent.com/81202572/174575829-249e6de6-96ea-4e40-a9e6-d2864fa5a8c8.gif)
+
+
+# Paginação pelo método de offset
+![Paginacao](https://user-images.githubusercontent.com/81202572/174575936-8fbb13ab-4478-48b2-98aa-8627071218bd.gif)
+
+
+# Testes unitários
+![Captura de tela 2022-06-20 062952](https://user-images.githubusercontent.com/81202572/174576051-94644069-62d5-46b1-8ba7-54cc912a9fca.png)
+
+
+
+
