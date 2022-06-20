@@ -1,4 +1,4 @@
-import SignInTemplate from '../templates/SignIn'
+import SignInTemplate from '../templates/Signin'
 
 export default function SignInPage() {
   return <SignInTemplate />
