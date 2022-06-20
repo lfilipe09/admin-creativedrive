@@ -22,8 +22,13 @@ import { User as UserType } from 'types/userTypes'
 import * as S from './styles'
 
 const UsersTemplate = () => {
-  const { getAllUsers, getUsersPaginated, getUserByEmail, deleteUser } =
-    useUser()
+  const {
+    searchUser,
+    getAllUsers,
+    getUsersPaginated,
+    getUserByEmail,
+    deleteUser
+  } = useUser()
   const { validateAuth, getAuth } = useAuth()
   const [allUsersData, setAllUsersData] = useState<UserType[]>()
   const [allAdminData, setAllAdminData] = useState<UserType[]>()
@@ -178,6 +183,12 @@ const UsersTemplate = () => {
                         inputHeight={'small'}
                         minimal={true}
                         outsideIcon={true}
+                        onInputChange={(value) => {
+                          const usersOnSearch = searchUser(value)
+
+                          usersOnSearch &&
+                            handlePaginationDataValues(usersOnSearch, 'general')
+                        }}
                       />
                       {userProfile !== 'Usuário' && (
                         <Link href={'/criar-usuario'} passHref>

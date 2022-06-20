@@ -44,6 +44,7 @@ const DashboardTemplate = () => {
     getUsersPaginated,
     getUserByEmail,
     deleteUser,
+    searchUser,
     updateUser
   } = useUser()
   const { validateAuth, getAuth } = useAuth()
@@ -132,6 +133,10 @@ const DashboardTemplate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    console.log(usersPaginatedState)
+  }, [usersPaginatedState])
+
   return (
     <S.WrapperImg>
       <S.Wrapper>
@@ -194,9 +199,7 @@ const DashboardTemplate = () => {
               <ContentWrapper
                 topIcon={<User size={'1.5rem'} />}
                 size={
-                  usersTypeAmount && usersTypeAmount?.admin > 0
-                    ? 'small'
-                    : undefined
+                  allUsersData && allUsersData?.length > 0 ? 'small' : undefined
                 }
                 RedirectUrlRightButton={
                   usersTypeAmount && usersTypeAmount?.admin > 0
@@ -208,12 +211,12 @@ const DashboardTemplate = () => {
               >
                 <div
                   style={{
-                    margin: usersTypeAmount?.admin === 0 ? '2rem' : '0'
+                    margin: allUsersData?.length === 0 ? '2rem' : '0'
                   }}
                 >
                   <DashboardData
                     dataNumber={
-                      usersTypeAmount?.admin === 0
+                      allUsersData?.length === 0
                         ? undefined
                         : usersTypeAmount?.admin
                     }
@@ -296,6 +299,11 @@ const DashboardTemplate = () => {
                         inputHeight={'small'}
                         minimal={true}
                         outsideIcon={true}
+                        onInputChange={(value) => {
+                          const usersOnSearch = searchUser(value)
+                          usersOnSearch &&
+                            handlePaginationDataValues(usersOnSearch)
+                        }}
                       />
                       {userProfile !== 'Usuário' && (
                         <Link href={'/criar-usuario'} passHref>
@@ -361,13 +369,6 @@ const DashboardTemplate = () => {
             <MediaMatch lessThan={'medium'}>
               <div style={{ paddingBottom: '2rem' }}>
                 <Heading title="Usuários" />
-                <TextField
-                  icon={<Search size={'1rem'} strokeWidth={2} />}
-                  placeholder={'Buscar usuários'}
-                  inputHeight={'small'}
-                  minimal={true}
-                  outsideIcon={true}
-                />
               </div>
               {usersPaginatedState?.mobile.map((user) => (
                 <UserCard

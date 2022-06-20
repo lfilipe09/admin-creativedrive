@@ -17,6 +17,7 @@ export type UserProps = {
   updateUser: (id: string, data: UserUpdate) => void
   deleteUser: (id: string) => void
   getAllUsers: () => User[]
+  searchUser: (name: string) => User[] | null
 }
 
 export const UserContext = createContext<UserProps>({} as UserProps)
@@ -97,6 +98,24 @@ export function UserProvider({ children }: UserProviderProps) {
     return UserExist
   }
 
+  const searchUser = (name: string) => {
+    const AllUsers: User[] = getStorageItem('users')
+
+    if (AllUsers === null) {
+      return null
+    }
+
+    const UserExist = AllUsers.filter((userStored) =>
+      userStored.name.toLowerCase().includes(name.toLowerCase())
+    )
+
+    if (!UserExist) {
+      return null
+    }
+
+    return UserExist
+  }
+
   const createUser = (user: UserForm) => {
     try {
       let newUsers = [...users]
@@ -151,8 +170,6 @@ export function UserProvider({ children }: UserProviderProps) {
   }
 
   const updateUser = (id: string, data: UserUpdate) => {
-    console.log('esse eh o id: ', id)
-    console.log('essa eh o dado: ', data)
     try {
       let newUsers = [...users]
       const UserToChange = newUsers.find((userStored) => userStored.id === id)
@@ -188,6 +205,7 @@ export function UserProvider({ children }: UserProviderProps) {
     <UserContext.Provider
       value={{
         getAllUsers,
+        searchUser,
         getUserByEmail,
         users,
         getUsersPaginated,

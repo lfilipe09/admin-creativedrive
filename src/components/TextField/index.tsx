@@ -46,6 +46,7 @@ const TextField = ({
 
   useEffect(() => {
     setValue(initialValue)
+    console.log(initialValue)
   }, [initialValue])
 
   return (
