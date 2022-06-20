@@ -126,6 +126,9 @@ Abra [http://localhost:3000](http://localhost:3000) no seu site e veja o resulta
 # Testes unitários
 ![Captura de tela 2022-06-20 062952](https://user-images.githubusercontent.com/81202572/174576051-94644069-62d5-46b1-8ba7-54cc912a9fca.png)
 
+# Storybook
+![Storybook](https://user-images.githubusercontent.com/81202572/174576639-f89c9322-6190-48e2-8f56-fb470546c774.gif)
 
-
-
+- ✅ Documentação de todo o design system da plataforma 
+- ✅ Todos os estilos de botão, input, modal, etc representados na plataforma
+- ✅ Possibilidade de edição e manipulação do componente de forma isolada
