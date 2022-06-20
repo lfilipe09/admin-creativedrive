@@ -1,4 +1,4 @@
-import { Home, User } from '@styled-icons/feather'
+import { Home, LogOut, User } from '@styled-icons/feather'
 import { MenuItem } from '.'
 
 export const menuItems: MenuItem[] = [
@@ -11,5 +11,10 @@ export const menuItems: MenuItem[] = [
     icon: <User size={'1.2rem'} strokeWidth={0.5} />,
     label: 'Usuários',
     url: '/users'
+  },
+  {
+    icon: <LogOut size={'1.2rem'} strokeWidth={0.5} />,
+    label: 'Logout',
+    url: '/'
   }
 ]
