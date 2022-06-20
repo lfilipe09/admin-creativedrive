@@ -151,6 +151,8 @@ export function UserProvider({ children }: UserProviderProps) {
   }
 
   const updateUser = (id: string, data: UserUpdate) => {
+    console.log('esse eh o id: ', id)
+    console.log('essa eh o dado: ', data)
     try {
       let newUsers = [...users]
       const UserToChange = newUsers.find((userStored) => userStored.id === id)

@@ -4,15 +4,20 @@ import * as S from './styles'
 export type EditProfileProps = {
   onDisable?: () => void
   profilePicUrl?: string
+  textDisable?: string
 }
 
-const EditProfile = ({ onDisable, profilePicUrl }: EditProfileProps) => (
+const EditProfile = ({
+  onDisable,
+  profilePicUrl,
+  textDisable = 'Desativar usuario'
+}: EditProfileProps) => (
   <S.Wrapper>
     <S.Image src={profilePicUrl ?? '/img/empty-profile-pic.png'} />
     <Button borderButton={true}>Fazer Upload</Button>
     {!!onDisable && (
       <Button onClick={onDisable} borderButton={true}>
-        Desativar usuario
+        {textDisable}
       </Button>
     )}
   </S.Wrapper>

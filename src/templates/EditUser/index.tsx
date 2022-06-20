@@ -16,13 +16,13 @@ import * as S from './styles'
 const EditUserTemplate = () => {
   const { getUserByEmail, updateUser } = useUser()
   const [user, setUser] = useState<User>()
+  const [userDisabled, setUserDisabled] = useState(false)
   const router = useRouter()
   const { push } = router
   useEffect(() => {
     let usersTemp: User | null = null
     usersTemp = getUserByEmail(router.query.email as string)
     usersTemp && setUser(usersTemp)
-    console.log('Olha a query:', router.query)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
@@ -44,7 +44,16 @@ const EditUserTemplate = () => {
           <ContentWrapper title={'Perfil'}>
             <S.FormWrapper>
               <EditProfile
-                onDisable={() => console.log('desativando usuário')}
+                textDisable={
+                  userDisabled ? 'Ativar usuário' : 'Desativar usuario'
+                }
+                onDisable={() => {
+                  user &&
+                    updateUser(user?.id, {
+                      activity: userDisabled ? 'Ativo' : 'Inativo'
+                    })
+                  setUserDisabled(!userDisabled)
+                }}
               />
               <FormSignEditUser
                 initialValues={user}

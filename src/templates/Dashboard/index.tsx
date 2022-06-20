@@ -38,7 +38,13 @@ export type UsersPaginated = {
 }
 
 const DashboardTemplate = () => {
-  const { getAllUsers, getUsersPaginated } = useUser()
+  const {
+    getAllUsers,
+    getUsersPaginated,
+    getUserByEmail,
+    deleteUser,
+    updateUser
+  } = useUser()
   const { validateAuth } = useAuth()
   const [usersTypeAmount, setUsersTypeAmount] = useState<UsersTypeNumber>()
   const [allUsersData, setAllUsersData] = useState<UserType[]>()
@@ -83,9 +89,9 @@ const DashboardTemplate = () => {
     const DesktopTable: TableColumn[] = [
       { 'Criado em:': creation_Dates },
       { foto: profilesPics },
-      { nome: names },
+      { name: names },
       { email: emails },
-      { atividade: activities }
+      { activity: activities }
     ]
 
     const MobileCard: UserCardProps[] = []
@@ -223,13 +229,24 @@ const DashboardTemplate = () => {
                         : []
                     }
                     isEditable={true}
-                    editableFields={['nome', 'perfil', 'email', 'atividade']}
+                    editableFields={['name', 'activity']}
                     OnDeleteLine={(email) => {
-                      console.log(email)
+                      const userToDelete = getUserByEmail(email)
+                      new Promise((res) => {
+                        res(userToDelete && deleteUser(userToDelete.id))
+                      }).then(() => {
+                        const usersData = getAllUsers()
+                        handleDashboardDataValues(usersData)
+                      })
                     }}
                     onChangeLine={(email, data) => {
-                      console.log(email)
-                      console.log(data)
+                      const userToUpdate = getUserByEmail(email)
+                      new Promise((res) => {
+                        res(userToUpdate && updateUser(userToUpdate.id, data))
+                      }).then(() => {
+                        const usersData = getAllUsers()
+                        handleDashboardDataValues(usersData)
+                      })
                     }}
                   />
                   <S.FooterPagination>

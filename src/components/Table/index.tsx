@@ -115,7 +115,7 @@ const Table = ({
                       </S.ImageWrapper>
                     ) : editableFields?.includes(key) &&
                       editModeOnIndex === index ? (
-                      key === 'atividade' || key === 'perfil' ? (
+                      key === 'activity' || key === 'perfil' ? (
                         <div style={{ padding: ' 0px 1rem' }}>
                           <Dropdown
                             minimal={true}
@@ -126,7 +126,7 @@ const Table = ({
                                 : (tableData[indexKey][key][index] as string)
                             }
                             options={
-                              key === 'atividade'
+                              key === 'activity'
                                 ? ['Ativo', 'Inativo']
                                 : ['Administrador', 'Usuário']
                             }

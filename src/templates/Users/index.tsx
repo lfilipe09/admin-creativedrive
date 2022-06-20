@@ -21,7 +21,8 @@ import { User as UserType } from 'types/userTypes'
 import * as S from './styles'
 
 const UsersTemplate = () => {
-  const { getAllUsers, getUsersPaginated } = useUser()
+  const { getAllUsers, getUsersPaginated, getUserByEmail, deleteUser } =
+    useUser()
   const [allUsersData, setAllUsersData] = useState<UserType[]>()
   const [allAdminData, setAllAdminData] = useState<UserType[]>()
   const [allInactiveData, setAllInactiveData] = useState<UserType[]>()
@@ -186,7 +187,8 @@ const UsersTemplate = () => {
                     isEditable={true}
                     editableFields={['nome', 'perfil', 'email', 'atividade']}
                     OnDeleteLine={(email) => {
-                      console.log(email)
+                      const userToDelete = getUserByEmail(email)
+                      userToDelete && deleteUser(userToDelete.id)
                     }}
                     handleChangeLine={(email) => {
                       console.log(email)
@@ -250,7 +252,8 @@ const UsersTemplate = () => {
                         })
                       }}
                       OnDeleteLine={(email) => {
-                        console.log(email)
+                        const userToDelete = getUserByEmail(email)
+                        userToDelete && deleteUser(userToDelete.id)
                       }}
                       onChangeLine={(email, data) => {
                         console.log(email)
@@ -300,7 +303,8 @@ const UsersTemplate = () => {
                         })
                       }}
                       OnDeleteLine={(email) => {
-                        console.log(email)
+                        const userToDelete = getUserByEmail(email)
+                        userToDelete && deleteUser(userToDelete.id)
                       }}
                       onChangeLine={(email, data) => {
                         console.log(email)
