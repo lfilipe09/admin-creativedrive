@@ -1,4 +1,4 @@
-import DashboardTemplate from 'templates/Dashboard'
+import DashboardTemplate from '../templates/Dashboard'
 
 export default function DashboardPage() {
   return <DashboardTemplate />
