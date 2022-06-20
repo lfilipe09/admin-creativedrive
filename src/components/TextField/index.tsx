@@ -40,6 +40,7 @@ const TextField = ({
   const [visiblePassword, setVisiblePassword] = useState(false)
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.value
+    console.log(newValue)
     setValue(newValue)
     !!onInputChange && onInputChange(newValue)
   }

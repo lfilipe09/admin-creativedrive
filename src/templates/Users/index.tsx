@@ -1,4 +1,4 @@
-import { PlusCircle, Search } from '@styled-icons/feather'
+import { PlusCircle, Search, User } from '@styled-icons/feather'
 import Button from 'components/Button'
 import { Container } from 'components/Container'
 import ContentWrapper from 'components/ContentWrapper'
@@ -7,19 +7,137 @@ import MediaMatch from 'components/MediaMatch'
 import Menu from 'components/Menu'
 import { menuItems } from 'components/Menu/menuItems.fixtures'
 import Pagination from 'components/Pagination'
-import Table from 'components/Table'
-import {
-  tableMockAdmin,
-  tableMockInactive,
-  tableMockReduced
-} from 'components/Table/mock'
+import Table, { TableColumn } from 'components/Table'
 import TextField from 'components/TextField'
-import UserCard from 'components/UserCard'
+import UserCard, { UserCardProps } from 'components/UserCard'
+import { useAuth } from 'hooks/useAuth'
+import { useUser } from 'hooks/useUser'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { UsersPaginated } from 'templates/Dashboard'
+import { User as UserType } from 'types/userTypes'
 
 import * as S from './styles'
 
 const UsersTemplate = () => {
+  const { getAllUsers, getUsersPaginated } = useUser()
+  const [allUsersData, setAllUsersData] = useState<UserType[]>()
+  const [allAdminData, setAllAdminData] = useState<UserType[]>()
+  const [allInactiveData, setAllInactiveData] = useState<UserType[]>()
+  const [usersPaginatedState, setUsersPaginatedState] =
+    useState<UsersPaginated>()
+  const [adminPaginatedState, setAdminPaginatedState] =
+    useState<UsersPaginated>()
+  const [inactivesPaginatedState, setInactivesPaginatedState] =
+    useState<UsersPaginated>()
+  const { validateAuth } = useAuth()
+  const routes = useRouter()
+  const { push } = routes
+
+  function handlePaginationDataValues(
+    usersPaginated: UserType[],
+    type: 'general' | 'admin' | 'inactive'
+  ) {
+    const profilesPics: JSX.Element[] = []
+    const names: string[] = []
+    const activities: string[] = []
+    const profile: string[] = []
+
+    usersPaginated.map((user) => {
+      if (type === 'general') {
+        profilesPics.push(<User size={'1rem'} key={''} />)
+        names.push(user.name)
+        activities.push(user.activity)
+        profile.push(user.profile)
+      } else if (type === 'admin') {
+        if (user.profile === 'Administrador') {
+          profilesPics.push(<User size={'1rem'} key={''} />)
+          names.push(user.name)
+          activities.push(user.activity)
+          profile.push(user.profile)
+        }
+      } else {
+        if (user.activity === 'Inativo') {
+          profilesPics.push(<User size={'1rem'} key={''} />)
+          names.push(user.name)
+          activities.push(user.activity)
+          profile.push(user.profile)
+        }
+      }
+    })
+
+    const DesktopTable: TableColumn[] =
+      type === 'general'
+        ? [
+            { foto: profilesPics },
+            { nome: names },
+            { perfil: profile },
+            { atividade: activities }
+          ]
+        : type === 'admin'
+        ? [{ foto: profilesPics }, { nome: names }, { atividade: activities }]
+        : [{ foto: profilesPics }, { nome: names }, { perfil: profile }]
+
+    const MobileCard: UserCardProps[] = []
+    usersPaginated.map((user) => {
+      MobileCard.push({
+        name: user.name,
+        creationDate: user.created_at,
+        activity: user.activity,
+        email: user.email,
+        role: user.profile,
+        onDeleteData: () => {
+          console.log('deeltar')
+        },
+        onEditData: () => {
+          console.log('editar')
+        }
+      })
+    })
+
+    if (type === 'general') {
+      setUsersPaginatedState({
+        desktop: DesktopTable,
+        mobile: usersPaginatedState
+          ? [...usersPaginatedState.mobile, ...MobileCard]
+          : MobileCard
+      })
+    } else if (type === 'admin') {
+      setAdminPaginatedState({
+        desktop: DesktopTable,
+        mobile: adminPaginatedState
+          ? [...adminPaginatedState.mobile, ...MobileCard]
+          : MobileCard
+      })
+    } else {
+      setInactivesPaginatedState({
+        desktop: DesktopTable,
+        mobile: inactivesPaginatedState
+          ? [...inactivesPaginatedState.mobile, ...MobileCard]
+          : MobileCard
+      })
+    }
+  }
+
+  useEffect(() => {
+    const usersData = getAllUsers()
+    setAllUsersData(usersData)
+    setAllAdminData(
+      usersData.filter((user) => user.profile === 'Administrador')
+    )
+    setAllInactiveData(usersData.filter((user) => user.activity === 'Inativo'))
+    const usersPaginated = getUsersPaginated(0, 10)
+    const usersPaginatedReduced = getUsersPaginated(0, 5)
+    usersPaginated && handlePaginationDataValues(usersPaginated, 'general')
+    usersPaginatedReduced &&
+      handlePaginationDataValues(usersPaginatedReduced, 'admin')
+    usersPaginatedReduced &&
+      handlePaginationDataValues(usersPaginatedReduced, 'inactive')
+    const session = validateAuth()
+    !session && push('/login')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <S.WrapperImg>
       <S.Wrapper>
@@ -56,7 +174,11 @@ const UsersTemplate = () => {
                     </Link>
                   </S.ButtonTableGroup>
                   <Table
-                    data={tableMockReduced}
+                    data={
+                      usersPaginatedState?.desktop
+                        ? usersPaginatedState.desktop
+                        : []
+                    }
                     isEditable={true}
                     editableFields={['nome', 'perfil', 'email', 'atividade']}
                     OnDeleteLine={(email) => {
@@ -68,10 +190,24 @@ const UsersTemplate = () => {
                     }}
                   />
                   <S.FooterPagination>
-                    <Pagination
-                      numberOfPages={10}
-                      onPageChange={() => console.log('mudou')}
-                    />
+                    {allUsersData && allUsersData?.length > 10 && (
+                      <Pagination
+                        numberOfPages={
+                          allUsersData ? Math.ceil(allUsersData.length / 5) : 0
+                        }
+                        onPageChange={(value) => {
+                          const usersPaginated = getUsersPaginated(
+                            (value - 1) * 10,
+                            10
+                          )
+                          usersPaginated &&
+                            handlePaginationDataValues(
+                              usersPaginated,
+                              'general'
+                            )
+                        }}
+                      />
+                    )}
                   </S.FooterPagination>
                 </div>
               </ContentWrapper>
@@ -85,7 +221,11 @@ const UsersTemplate = () => {
                 <ContentWrapper title={'Administradores'}>
                   <div style={{ width: '100%' }}>
                     <Table
-                      data={tableMockAdmin}
+                      data={
+                        adminPaginatedState?.desktop
+                          ? adminPaginatedState.desktop
+                          : []
+                      }
                       isEditable={true}
                       editableFields={['nome', 'perfil', 'email', 'atividade']}
                       OnDeleteLine={(email) => {
@@ -97,17 +237,37 @@ const UsersTemplate = () => {
                       }}
                     />
                     <S.FooterPagination>
-                      <Pagination
-                        numberOfPages={10}
-                        onPageChange={() => console.log('mudou')}
-                      />
+                      {allAdminData && allAdminData?.length > 5 && (
+                        <Pagination
+                          numberOfPages={
+                            allAdminData
+                              ? Math.ceil(allAdminData.length / 5)
+                              : 0
+                          }
+                          onPageChange={(value) => {
+                            const usersPaginated = getUsersPaginated(
+                              (value - 1) * 5,
+                              5
+                            )
+                            usersPaginated &&
+                              handlePaginationDataValues(
+                                usersPaginated,
+                                'admin'
+                              )
+                          }}
+                        />
+                      )}
                     </S.FooterPagination>
                   </div>
                 </ContentWrapper>
                 <ContentWrapper title={'Usuários inativos'}>
                   <div style={{ width: '100%' }}>
                     <Table
-                      data={tableMockInactive}
+                      data={
+                        inactivesPaginatedState?.desktop
+                          ? inactivesPaginatedState.desktop
+                          : []
+                      }
                       isEditable={true}
                       editableFields={['nome', 'perfil', 'email', 'atividade']}
                       OnDeleteLine={(email) => {
@@ -119,10 +279,26 @@ const UsersTemplate = () => {
                       }}
                     />
                     <S.FooterPagination>
-                      <Pagination
-                        numberOfPages={10}
-                        onPageChange={() => console.log('mudou')}
-                      />
+                      {allInactiveData && allInactiveData?.length > 5 && (
+                        <Pagination
+                          numberOfPages={
+                            allInactiveData
+                              ? Math.ceil(allInactiveData.length / 5)
+                              : 0
+                          }
+                          onPageChange={(value) => {
+                            const usersPaginated = getUsersPaginated(
+                              (value - 1) * 5,
+                              5
+                            )
+                            usersPaginated &&
+                              handlePaginationDataValues(
+                                usersPaginated,
+                                'inactive'
+                              )
+                          }}
+                        />
+                      )}
                     </S.FooterPagination>
                   </div>
                 </ContentWrapper>
@@ -140,17 +316,10 @@ const UsersTemplate = () => {
                 outsideIcon={true}
               />
             </div>
-            <UserCard
-              activity={'Ativo'}
-              creationDate={new Date().toString()}
-              name={'Fulano Ciclano'}
-              email={'example@gmail.com'}
-              role={'Administrador'}
-              imgAlt={'Empty Photo'}
-              imgUrl={'/img/empty-profile-pic.png'}
-              onDeleteData={(email) => console.log(email)}
-              onEditData={(email) => console.log(email)}
-            />
+            {usersPaginatedState?.mobile.map((user) => (
+              <UserCard key={user.creationDate} {...user} />
+            ))}
+
             <div
               style={{
                 paddingTop: '2rem',
@@ -161,61 +330,11 @@ const UsersTemplate = () => {
             >
               <Pagination
                 numberOfPages={10}
-                onPageChange={() => console.log('mudou')}
-              />
-            </div>
-            <div style={{ paddingBottom: '2rem' }}>
-              <Heading title="Administradores" />
-            </div>
-            <UserCard
-              activity={'Ativo'}
-              creationDate={new Date().toString()}
-              name={'Fulano Ciclano'}
-              email={'example@gmail.com'}
-              role={'Administrador'}
-              imgAlt={'Empty Photo'}
-              imgUrl={'/img/empty-profile-pic.png'}
-              onDeleteData={(email) => console.log(email)}
-              onEditData={(email) => console.log(email)}
-            />
-            <div
-              style={{
-                paddingTop: '2rem',
-                paddingBottom: '5rem',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <Pagination
-                numberOfPages={10}
-                onPageChange={() => console.log('mudou')}
-              />
-            </div>
-            <div style={{ paddingBottom: '2rem' }}>
-              <Heading title="Inativos" />
-            </div>
-            <UserCard
-              activity={'Ativo'}
-              creationDate={new Date().toString()}
-              name={'Fulano Ciclano'}
-              email={'example@gmail.com'}
-              role={'Administrador'}
-              imgAlt={'Empty Photo'}
-              imgUrl={'/img/empty-profile-pic.png'}
-              onDeleteData={(email) => console.log(email)}
-              onEditData={(email) => console.log(email)}
-            />
-            <div
-              style={{
-                paddingTop: '2rem',
-                paddingBottom: '5rem',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <Pagination
-                numberOfPages={10}
-                onPageChange={() => console.log('mudou')}
+                onPageChange={(value) => {
+                  const usersPaginated = getUsersPaginated((value - 1) * 10, 10)
+                  usersPaginated &&
+                    handlePaginationDataValues(usersPaginated, 'general')
+                }}
               />
             </div>
           </MediaMatch>

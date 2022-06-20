@@ -39,11 +39,11 @@ export type UsersPaginated = {
 
 const DashboardTemplate = () => {
   const { getAllUsers, getUsersPaginated } = useUser()
+  const { validateAuth } = useAuth()
   const [usersTypeAmount, setUsersTypeAmount] = useState<UsersTypeNumber>()
   const [allUsersData, setAllUsersData] = useState<UserType[]>()
   const [usersPaginatedState, setUsersPaginatedState] =
     useState<UsersPaginated>()
-  const { validateAuth } = useAuth()
   const routes = useRouter()
   const { push } = routes
 
