@@ -6,6 +6,7 @@ import EditProfile from 'components/EditProfile'
 import FormSignEditUser from 'components/FormEdituser'
 import Heading from 'components/Heading'
 import MediaMatch from 'components/MediaMatch'
+import { useAuth } from 'hooks/useAuth'
 import { useUser } from 'hooks/useUser'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -15,6 +16,7 @@ import * as S from './styles'
 
 const EditUserTemplate = () => {
   const { getUserByEmail, updateUser } = useUser()
+  const { getAuth } = useAuth()
   const [user, setUser] = useState<User>()
   const [userDisabled, setUserDisabled] = useState(false)
   const router = useRouter()
@@ -23,11 +25,13 @@ const EditUserTemplate = () => {
     let usersTemp: User | null = null
     usersTemp = getUserByEmail(router.query.email as string)
     usersTemp && setUser(usersTemp)
+    const userProfileTemp = getAuth()
+    const userTemp =
+      userProfileTemp && getUserByEmail(userProfileTemp?.userEmail)
+    userTemp?.profile === 'Usuário' && push('/dashboard')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  useEffect(() => {
-    console.log(user)
-  }, [user])
+
   return (
     <S.Wrapper>
       <Container>

@@ -46,8 +46,11 @@ const DashboardTemplate = () => {
     deleteUser,
     updateUser
   } = useUser()
-  const { validateAuth } = useAuth()
+  const { validateAuth, getAuth } = useAuth()
   const [usersTypeAmount, setUsersTypeAmount] = useState<UsersTypeNumber>()
+  const [userProfile, setUserProfile] = useState<'Administrador' | 'Usuário'>(
+    'Administrador'
+  )
   const [allUsersData, setAllUsersData] = useState<UserType[]>()
   const [usersPaginatedState, setUsersPaginatedState] =
     useState<UsersPaginated>()
@@ -122,6 +125,10 @@ const DashboardTemplate = () => {
     usersPaginated && handlePaginationDataValues(usersPaginated)
     const session = validateAuth()
     !session && push('/login')
+    const userProfileTemp = getAuth()
+    const userTemp =
+      userProfileTemp && getUserByEmail(userProfileTemp?.userEmail)
+    userTemp && setUserProfile(userTemp.profile)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -154,7 +161,9 @@ const DashboardTemplate = () => {
                 RedirectUrlRightButton={
                   usersTypeAmount && usersTypeAmount?.actives > 0
                     ? '/users'
-                    : '/criar-usuario'
+                    : userProfile !== 'Usuário'
+                    ? '/criar-usuario'
+                    : '/users'
                 }
               >
                 {
@@ -192,7 +201,9 @@ const DashboardTemplate = () => {
                 RedirectUrlRightButton={
                   usersTypeAmount && usersTypeAmount?.admin > 0
                     ? '/users'
-                    : '/criar-usuario'
+                    : userProfile !== 'Usuário'
+                    ? '/criar-usuario'
+                    : '/users'
                 }
               >
                 <div
@@ -226,7 +237,9 @@ const DashboardTemplate = () => {
                 RedirectUrlRightButton={
                   usersTypeAmount && usersTypeAmount?.inactive > 0
                     ? '/users'
-                    : '/criar-usuario'
+                    : userProfile !== 'Usuário'
+                    ? '/criar-usuario'
+                    : '/users'
                 }
               >
                 <div
@@ -258,7 +271,7 @@ const DashboardTemplate = () => {
                 title={'Usuários da plataforma'}
                 rightButtonText={
                   allUsersData && allUsersData?.length > 0
-                    ? 'Gerenciar usuarios'
+                    ? 'Visualizar usuarios'
                     : undefined
                 }
                 RedirectUrlRightButton={
@@ -284,14 +297,16 @@ const DashboardTemplate = () => {
                         minimal={true}
                         outsideIcon={true}
                       />
-                      <Link href={'/criar-usuario'} passHref>
-                        <Button
-                          as="a"
-                          icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
-                        >
-                          criar um novo usuario
-                        </Button>
-                      </Link>
+                      {userProfile !== 'Usuário' && (
+                        <Link href={'/criar-usuario'} passHref>
+                          <Button
+                            as="a"
+                            icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
+                          >
+                            criar um novo usuario
+                          </Button>
+                        </Link>
+                      )}
                     </S.ButtonTableGroup>
                     <Table
                       data={
@@ -299,7 +314,7 @@ const DashboardTemplate = () => {
                           ? usersPaginatedState.desktop
                           : []
                       }
-                      isEditable={true}
+                      isEditable={userProfile !== 'Usuário' ? true : false}
                       editableFields={['name', 'activity']}
                       OnDeleteLine={(email) => {
                         const userToDelete = getUserByEmail(email)

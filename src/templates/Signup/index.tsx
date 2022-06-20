@@ -31,8 +31,8 @@ const SignUpTemplate = () => {
           <S.FormWrapper>
             <FormSignUp
               onSubmit={(value) => {
-                createAuth()
                 createUser(value)
+                createAuth(value.email)
                 push('/dashboard')
               }}
             />

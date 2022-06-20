@@ -24,16 +24,19 @@ import * as S from './styles'
 const UsersTemplate = () => {
   const { getAllUsers, getUsersPaginated, getUserByEmail, deleteUser } =
     useUser()
+  const { validateAuth, getAuth } = useAuth()
   const [allUsersData, setAllUsersData] = useState<UserType[]>()
   const [allAdminData, setAllAdminData] = useState<UserType[]>()
   const [allInactiveData, setAllInactiveData] = useState<UserType[]>()
+  const [userProfile, setUserProfile] = useState<'Administrador' | 'Usuário'>(
+    'Administrador'
+  )
   const [usersPaginatedState, setUsersPaginatedState] =
     useState<UsersPaginated>()
   const [adminPaginatedState, setAdminPaginatedState] =
     useState<UsersPaginated>()
   const [inactivesPaginatedState, setInactivesPaginatedState] =
     useState<UsersPaginated>()
-  const { validateAuth } = useAuth()
   const routes = useRouter()
   const { push } = routes
 
@@ -136,6 +139,10 @@ const UsersTemplate = () => {
       handlePaginationDataValues(usersPaginatedReduced, 'inactive')
     const session = validateAuth()
     !session && push('/login')
+    const userProfileTemp = getAuth()
+    const userTemp =
+      userProfileTemp && getUserByEmail(userProfileTemp?.userEmail)
+    userTemp && setUserProfile(userTemp.profile)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
@@ -172,14 +179,16 @@ const UsersTemplate = () => {
                         minimal={true}
                         outsideIcon={true}
                       />
-                      <Link href={'/criar-usuario'} passHref>
-                        <Button
-                          as="a"
-                          icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
-                        >
-                          criar um novo usuario
-                        </Button>
-                      </Link>
+                      {userProfile !== 'Usuário' && (
+                        <Link href={'/criar-usuario'} passHref>
+                          <Button
+                            as="a"
+                            icon={<PlusCircle size={'1rem'} strokeWidth={2} />}
+                          >
+                            criar um novo usuario
+                          </Button>
+                        </Link>
+                      )}
                     </S.ButtonTableGroup>
                     <Table
                       data={
@@ -187,7 +196,7 @@ const UsersTemplate = () => {
                           ? usersPaginatedState.desktop
                           : []
                       }
-                      isEditable={true}
+                      isEditable={userProfile !== 'Usuário' ? true : false}
                       editableFields={['nome', 'perfil', 'email', 'atividade']}
                       OnDeleteLine={(email) => {
                         const userToDelete = getUserByEmail(email)
@@ -254,7 +263,7 @@ const UsersTemplate = () => {
                             ? adminPaginatedState.desktop
                             : []
                         }
-                        isEditable={true}
+                        isEditable={userProfile !== 'Usuário' ? true : false}
                         editableFields={[
                           'nome',
                           'perfil',
@@ -312,7 +321,7 @@ const UsersTemplate = () => {
                             ? inactivesPaginatedState.desktop
                             : []
                         }
-                        isEditable={true}
+                        isEditable={userProfile !== 'Usuário' ? true : false}
                         editableFields={[
                           'nome',
                           'perfil',

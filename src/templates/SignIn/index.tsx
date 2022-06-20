@@ -39,7 +39,7 @@ const SignInTemplate = () => {
                     'Não foi encontrado nenhum usuário com esses dados'
                   )
                 } else {
-                  createAuth()
+                  createAuth(value.email)
                   push('/dashboard')
                 }
               }}

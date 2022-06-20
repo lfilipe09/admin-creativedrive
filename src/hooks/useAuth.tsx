@@ -11,8 +11,9 @@ export interface AuthProviderProps {
 }
 
 export type AuthProps = {
+  getAuth: () => null | Auth
   validateAuth: () => boolean
-  createAuth: () => void
+  createAuth: (userEmail: string) => void
 }
 
 export const AuthContext = createContext<AuthProps>({} as AuthProps)
@@ -36,15 +37,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return true
   }
 
-  const createAuth = () => {
+  const getAuth = () => {
+    const AuthStoraged: Auth = getStorageItem('auth')
+
+    if (AuthStoraged === null) {
+      return null
+    }
+
+    if (
+      new Date().getTime() - new Date(AuthStoraged?.time).getTime() >
+      3600000
+    ) {
+      removeStorageItem('auth')
+      return null
+    }
+
+    return AuthStoraged
+  }
+
+  const createAuth = (userEmail: string) => {
     setStorageItem('auth', {
       token: new Date().getTime().toString(16),
-      time: new Date().toISOString()
+      time: new Date().toISOString(),
+      userEmail: userEmail
     })
   }
 
   return (
-    <AuthContext.Provider value={{ createAuth, validateAuth }}>
+    <AuthContext.Provider value={{ getAuth, createAuth, validateAuth }}>
       {children}
     </AuthContext.Provider>
   )

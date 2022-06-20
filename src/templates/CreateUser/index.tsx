@@ -14,13 +14,17 @@ import { useEffect } from 'react'
 import * as S from './styles'
 
 const CreateUserTemplate = () => {
-  const { createUser } = useUser()
-  const { validateAuth } = useAuth()
+  const { createUser, getUserByEmail } = useUser()
+  const { validateAuth, getAuth } = useAuth()
   const routes = useRouter()
   const { push } = routes
   useEffect(() => {
     const session = validateAuth()
     !session && push('/login')
+    const userProfileTemp = getAuth()
+    const userTemp =
+      userProfileTemp && getUserByEmail(userProfileTemp?.userEmail)
+    userTemp?.profile === 'Usuário' && push('/dashboard')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
