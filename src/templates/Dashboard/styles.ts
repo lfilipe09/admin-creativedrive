@@ -38,7 +38,7 @@ export const WrapperImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   ${media.lessThan('medium')`
-    background-size: contain;
+    background-size: auto;
   `}
 `
 

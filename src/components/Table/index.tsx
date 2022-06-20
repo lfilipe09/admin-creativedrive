@@ -2,7 +2,7 @@ import { CheckCircle, Edit3, Trash2, XCircle } from '@styled-icons/feather'
 import Button from 'components/Button'
 import Dropdown from 'components/Dropdown'
 import TextField from 'components/TextField'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 import * as S from './styles'
 
@@ -33,7 +33,7 @@ const Table = ({
   const [tableData, setTableData] = useState<TableColumn[]>(data)
   const [editingData, setEditingData] = useState<TableEditingColumn>({})
   const keys = Object.keys(Object.assign({}, ...tableData))
-  const length = tableData[0][keys[0]].map((cell) => cell)
+  const length = tableData[0] && tableData[0][keys[0]].map((cell) => cell)
 
   function removeByIndex(index: number) {
     const newTable: TableColumn[] = []
@@ -66,6 +66,10 @@ const Table = ({
     setTableData(newTable)
   }
 
+  useEffect(() => {
+    setTableData(data)
+  }, [data])
+
   return (
     <S.TableWrapper>
       <S.TableHeadLine>
@@ -76,12 +80,13 @@ const Table = ({
         </S.TableLine>
       </S.TableHeadLine>
       <S.TableBodyLine>
-        {length.map((_, index) => {
+        {length?.map((_, index) => {
           return (
             <S.TableLine key={v4()}>
               {keys.map((key, indexKey) => (
                 <S.TableCell key={v4()}>
-                  {typeof tableData[indexKey][key][index] == 'object' ? (
+                  {tableData[indexKey] &&
+                  typeof tableData[indexKey][key][index] == 'object' ? (
                     <S.ImageWrapper>
                       {tableData[indexKey][key][index]}
                     </S.ImageWrapper>
@@ -131,7 +136,7 @@ const Table = ({
                       />
                     )
                   ) : (
-                    tableData[indexKey][key][index]
+                    tableData[indexKey] && tableData[indexKey][key][index]
                   )}
                 </S.TableCell>
               ))}

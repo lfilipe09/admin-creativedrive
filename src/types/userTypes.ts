@@ -11,6 +11,8 @@ export interface User {
   profile: 'Administrador' | 'Usuário'
   email: string
   password: string
+  activity: 'Ativo' | 'Inativo'
+  created_at: string
 }
 
 export interface UserUpdate {
@@ -20,11 +22,13 @@ export interface UserUpdate {
   profile?: 'Administrador' | 'Usuário'
   email?: string
   password?: string
+  activity?: 'Ativo' | 'Inativo'
+  created_at?: string
 }
 
-export type UserForm = Omit<User, 'id'>
+export type UserForm = Omit<User, 'id' | 'activity' | 'created_at'>
 
 export type UserFormSignIn = Omit<
   UserForm,
-  'name' | 'surname' | 'cpf' | 'profile'
+  'name' | 'surname' | 'cpf' | 'profile' | 'activity' | 'created_at'
 >

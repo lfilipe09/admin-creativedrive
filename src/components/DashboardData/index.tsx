@@ -21,7 +21,11 @@ const DashboardData = ({
         <S.Icon>{icon}</S.Icon>
       </MediaMatch>
       <S.Title>{title}</S.Title>
-      {isActive && <S.Subtitle>ativos na plataforma</S.Subtitle>}
+      {isActive && (
+        <S.Subtitle>
+          {dataNumber === 1 ? 'ativo' : 'ativos '} na plataforma
+        </S.Subtitle>
+      )}
     </S.InfoContentWrapper>
   </S.Wrapper>
 )

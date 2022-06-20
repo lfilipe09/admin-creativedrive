@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import _ from 'lodash'
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { User, UserForm, UserUpdate } from 'types/userTypes'
@@ -9,11 +10,12 @@ export interface UserProviderProps {
 
 export type UserProps = {
   users: User[]
-  getUsers: (offset: number, amount?: number) => void
+  getUsersPaginated: (offset: number, amount?: number) => null | User[]
   validateUser: (email: string, password: string) => void
   createUser: (user: UserForm) => void
   updateUser: (id: string, data: UserUpdate) => void
   deleteUser: (id: string) => void
+  getAllUsers: () => User[]
 }
 
 export const UserContext = createContext<UserProps>({} as UserProps)
@@ -31,7 +33,7 @@ export function UserProvider({ children }: UserProviderProps) {
     return []
   })
 
-  const getUsers = (offset: number, amount = 10) => {
+  const getUsersPaginated = (offset: number, amount = 10) => {
     const AllUsers = getStorageItem('users')
     const usersTemp = []
     let cont = 0
@@ -46,6 +48,16 @@ export function UserProvider({ children }: UserProviderProps) {
     }
 
     return usersTemp
+  }
+
+  const getAllUsers = () => {
+    const AllUsers = getStorageItem('users')
+
+    if (AllUsers === null) {
+      return null
+    }
+
+    return AllUsers
   }
 
   const validateUser = (email: string, password: string) => {
@@ -78,10 +90,23 @@ export function UserProvider({ children }: UserProviderProps) {
       if (UserExist) {
         return null
       } else {
-        setUsers([...users, { ...user, id: new Date().getTime().toString(16) }])
+        setUsers([
+          ...users,
+          {
+            ...user,
+            id: new Date().getTime().toString(16),
+            activity: 'Ativo',
+            created_at: format(new Date(), 'dd/MM/yyyy HH:mm').toString()
+          }
+        ])
         newUsers = [
           ...users,
-          { ...user, id: new Date().getTime().toString(16) }
+          {
+            ...user,
+            id: new Date().getTime().toString(16),
+            activity: 'Ativo',
+            created_at: format(new Date(), 'dd/MM/yyyy HH:mm').toString()
+          }
         ]
         setStorageItem('users', newUsers)
       }
@@ -123,7 +148,9 @@ export function UserProvider({ children }: UserProviderProps) {
           name: data.name ?? UserToChange.name,
           password: data.password ?? UserToChange.password,
           profile: data.profile ?? UserToChange.profile,
-          surname: data.surname ?? UserToChange.surname
+          surname: data.surname ?? UserToChange.surname,
+          activity: data.activity ?? UserToChange.activity,
+          created_at: UserToChange.created_at
         }
         if (!_.isEqual(UserToChange, newUserChanged)) {
           const newUsersDeleted = newUsers.filter(
@@ -142,8 +169,9 @@ export function UserProvider({ children }: UserProviderProps) {
   return (
     <UserContext.Provider
       value={{
+        getAllUsers,
         users,
-        getUsers,
+        getUsersPaginated,
         createUser,
         deleteUser,
         updateUser,

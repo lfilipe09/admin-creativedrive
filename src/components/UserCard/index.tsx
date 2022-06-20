@@ -1,6 +1,5 @@
 import { Edit3, Trash2 } from '@styled-icons/feather'
 import Button from 'components/Button'
-import { format } from 'date-fns'
 import * as S from './styles'
 
 export type UserCardProps = {
@@ -9,8 +8,8 @@ export type UserCardProps = {
   role: string
   email: string
   activity: string
-  imgUrl: string
-  imgAlt: string
+  imgUrl?: string
+  imgAlt?: string
   onEditData: (userEmail: string) => void
   onDeleteData: (userEmail: string) => void
 }
@@ -19,15 +18,15 @@ const UserCard = ({
   activity,
   creationDate,
   email,
-  imgUrl,
-  imgAlt,
+  imgUrl = '/img/empty-profile-pic.png',
+  imgAlt = 'Empty Photo',
   name,
   role,
   onEditData,
   onDeleteData
 }: UserCardProps) => (
   <S.Wrapper>
-    <S.Date>Criado em {format(new Date(creationDate), 'dd/MM')}</S.Date>
+    <S.Date>Criado em {creationDate}</S.Date>
     <S.UserWrapper>
       <S.Image src={imgUrl} alt={imgAlt} />
       <S.TextWrapper>
