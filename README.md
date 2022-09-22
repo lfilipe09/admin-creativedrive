@@ -1,5 +1,4 @@
 
-## Entregas
 
 - ✅ Typescript
 - ✅ Testes unitários
